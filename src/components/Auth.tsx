@@ -57,7 +57,7 @@ const Auth = () => {
                           required
                         />
                       </div>
-                      <button type="submit" className="btn btn-primary btn-block">
+                      <button type="submit" className="btn btn-primary btn-block mt-2">
                         Login
                       </button>
                     </form>

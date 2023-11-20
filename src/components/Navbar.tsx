@@ -6,12 +6,11 @@ const Navbar = () => {
     const navigate = useNavigate()
     const logout = () => {
         localStorage.clear();
-        navigate("/", {replace: true});
-      };
+        navigate("/", { replace: true });
+    };
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <img className="img-thumbnail img-fluid mx-auto d-block" src="bgpngtransparent.png" style={{ width: 30 }} alt="HoneyDo Logo" />
-            <h1 className="navbar-brand">HoneyDo</h1>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+            <img className="img-thumbnail img-fluid mx-auto d-block" src="bgpngtransparent.png" style={{ width: 40 }} alt="HoneyDo Logo" />
             <div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                     <li className="nav-item">
@@ -27,10 +26,14 @@ const Navbar = () => {
                         <Link className="nav-link" to="/mytasks">Tasks</Link>
                     </li>
                     {isAuthenticated === 'true' ? (
-                        // If user is authenticated, show "Logout" link
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/auth" onClick={logout}>Logout</Link>
-                        </li>
+                        <>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/myprofile">Profile</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/auth" onClick={logout}>Logout</Link>
+                            </li>
+                        </>
                     ) : (
                         // If user is not authenticated, show "Login" link
                         <li className="nav-item">
