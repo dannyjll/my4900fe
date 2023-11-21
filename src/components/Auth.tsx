@@ -15,7 +15,6 @@ const Auth = () => {
       "username": username,
       "password": password
     }).then(response => {
-      console.log(response)
       localStorage.setItem("access", response.data.access)
       localStorage.setItem("refresh", response.data.refresh)
       localStorage.setItem('isAuthenticated', 'true')

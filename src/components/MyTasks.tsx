@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect } from 'react';
 import APIService from './APIService';
 import { User } from '../models/User';
-import { TaskList, Task } from '../models/TaskList';
-import { Link } from 'react-router-dom';
+import { TaskList } from '../models/TaskList';
+import { useNavigate } from 'react-router-dom';
 
 const MyTasks = () => {
   const [user, setData] = useState<User | null>(null);
   const [tasks, setTasks] = useState<TaskList | null>(null);
   const apiService = new APIService();
+  const navigate = useNavigate()
 
   useEffect(() => {
     apiService.getUser()
@@ -22,6 +23,10 @@ const MyTasks = () => {
         })
       .catch(error => console.error(error));  
   }, []);
+
+  const handleClick = (pk: number) => {
+    navigate(`/task/${pk}`)
+  }
 
   const renderCardContent = (task: any, index: number) => (
     <>
@@ -52,7 +57,7 @@ const MyTasks = () => {
           <div key={task.pk} className="col-lg-4 col-md-6 col-sm-12 mb-4">
             <div className="card h-100">
               <div className="card-body">
-                <h5 className="card-title">{task.title}</h5>
+                <h5 className="card-title" onClick={()=>handleClick(task.pk)}>{task.title}</h5>
                 <div>
                   {renderCardContent(task, index)}
                 </div>

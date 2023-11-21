@@ -36,6 +36,10 @@ export class APIService {
       const url = `${API_URL}/api/lists/`;
       return axiosInstance.get(url);
    }
+   getMyListList() {
+      const url = `${API_URL}/api/mylists/`;
+      return axiosInstance.get(url);
+   }
    addNewList(list: any) {
       const url = `${API_URL}/api/lists/`;
       return axiosInstance.post(url, list);
@@ -54,6 +58,10 @@ export class APIService {
    }
    getGroupList() {
       const url = `${API_URL}/api/groups/`;
+      return axiosInstance.get(url);
+   }
+   getMyGroupList() {
+      const url = `${API_URL}/api/mygroups/`;
       return axiosInstance.get(url);
    }
    addNewGroup(group: any) {

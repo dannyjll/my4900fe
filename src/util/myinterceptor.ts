@@ -7,8 +7,10 @@ axiosInstance.interceptors.response.use(response => {
 }, error => {
   if (error.response.status === 401) {
     console.error(error)
+    window.location.assign('/auth')
+    return Promise.reject(error);
   }
-  return error;
+  return Promise.reject(error);
 });
 
 axiosInstance.interceptors.request.use(config => {

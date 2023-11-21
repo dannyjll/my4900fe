@@ -4,7 +4,7 @@ import APIService from './APIService';
 import { User } from '../models/User';
 import { Link } from 'react-router-dom';
 
-const myGroups = () => {
+const MyGroups = () => {
   const [userdata, setData] = useState<User | null>(null);
   const apiService = new APIService();
 
@@ -14,7 +14,7 @@ const myGroups = () => {
         setData(response.data);
       })
       .catch(error => console.error(error));
-  }, [apiService]);
+  }, []);
 
   return (
     <div>
@@ -23,4 +23,4 @@ const myGroups = () => {
   )
 }
 
-export default myGroups
+export default MyGroups

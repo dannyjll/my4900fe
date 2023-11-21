@@ -4,7 +4,7 @@ import APIService from './APIService';
 import { User } from '../models/User';
 import { Link } from 'react-router-dom';
 
-const myProfile = () => {
+const MyProfile = () => {
   const [userdata, setData] = useState<User | null>(null);
   const apiService = new APIService();
 
@@ -14,7 +14,7 @@ const myProfile = () => {
         setData(response.data);
       })
       .catch(error => console.error(error));
-  }, [apiService]);
+  }, []);
 
   return (
     <div>
@@ -23,4 +23,4 @@ const myProfile = () => {
   )
 }
 
-export default myProfile
+export default MyProfile
