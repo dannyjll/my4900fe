@@ -1,0 +1,5 @@
+.grey-on-hover:hover {
+    cursor: pointer;
+    filter: grayscale(80%); /* Adjust the grayscale percentage as needed */
+    transition: filter 0.3s ease-in-out; /* Add a smooth transition effect */
+  }

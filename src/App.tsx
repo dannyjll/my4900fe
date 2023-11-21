@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import MyTasks from './components/MyTasks';
 import TaskDetail from './components/Task';
+import BoardDetail from './components/Board';
 import MyBoards from './components/MyBoards';
 import MyProfile from './components/MyProfile';
 import MyGroups from './components/MyGroups';
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/mytasks" element={ <MyTasks/> } />
         <Route path="/task/:pk" element={ <TaskDetail/> } />
         <Route path="/myboards" element={ <MyBoards/> } />
+        <Route path="/board/:pk" element={ <BoardDetail/> } />
         <Route path="/mygroups" element={ <MyGroups/> } />
         <Route path="/myprofile" element={ <MyProfile/> } />
       </Routes>

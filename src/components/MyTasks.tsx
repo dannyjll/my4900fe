@@ -36,7 +36,7 @@ const MyTasks = () => {
           <strong>Completion Status:</strong> {task.completion_status ? 'Completed' : 'Incomplete'}
         </li>
         <li className="list-group-item">
-          <strong>Due Date:</strong> {task.due_date}
+          <strong>Due Date:</strong> {task.due_date.substring(0, 10)}
         </li>
         <li className="list-group-item">
           <strong>Notes:</strong> {task.notes}
@@ -55,7 +55,7 @@ const MyTasks = () => {
       <div className="row">
         {tasks?.data.map((task, index) => (
           <div key={task.pk} className="col-lg-4 col-md-6 col-sm-12 mb-4">
-            <div className="card h-100">
+            <div className="card h-100 border-0 shadow-sm">
               <div className="card-body">
                 <h5 className="card-title" onClick={()=>handleClick(task.pk)}>{task.title}</h5>
                 <div>

@@ -40,13 +40,36 @@ export class APIService {
       const url = `${API_URL}/api/mylists/`;
       return axiosInstance.get(url);
    }
+   getTasksFromListPK(list_pk: any) {
+      const url = `${API_URL}/api/gettasksfromlist/${list_pk}`;
+      return axiosInstance.get(url);
+   }
    addNewList(list: any) {
       const url = `${API_URL}/api/lists/`;
       return axiosInstance.post(url, list);
    }
-   updateList(list: any) {
+   updateList(list: any, image: any) {
       const url = `${API_URL}/api/lists/${list.pk}`;
-      return axiosInstance.put(url, list);
+      const imagetype = typeof(image)
+      const fd = new FormData();
+      if (image != null) {
+         for (let key in list) {
+            if (list.hasOwnProperty(key)) {
+               if (key == 'group_set' || key == 'category' || key == 'task_set') {
+                  for (let k in list[key]) {
+                     fd.append(key, JSON.stringify(list[key][k]))
+                  }
+               }
+               else if (key == 'list_image' && imagetype == 'string') {
+                  continue
+               }
+               else {
+                  fd.append(key, list[key]);
+               }
+            }
+         }
+      }
+      return axiosInstance.put(url, fd);
    }
    deleteList(list_pk: any) {
       const url = `${API_URL}/api/lists/${list_pk}`;
@@ -105,15 +128,25 @@ export class APIService {
       };
    }
    updateProfile(profile: any, image: any) {
-      const url = `${API_URL}/api/profiles/${profile.pk}`;
+      const url = `${API_URL}/api/lists/${profile.pk}`;
+      const imagetype = typeof(image)
       const fd = new FormData();
       if (image != null) {
          for (let key in profile) {
             if (profile.hasOwnProperty(key)) {
-               fd.append(key, profile[key]);
+               if (key == 'randomstring') {
+                  for (let k in profile[key]) {
+                     fd.append(key, JSON.stringify(profile[key][k]))
+                  }
+               }
+               else if (key == 'image' && imagetype == 'string') {
+                  continue
+               }
+               else {
+                  fd.append(key, profile[key]);
+               }
             }
          }
-         fd.append('image', image)
       }
       return axiosInstance.put(url, fd);
    }

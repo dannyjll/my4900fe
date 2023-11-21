@@ -20,18 +20,17 @@ const MyBoards = () => {
       apiService.getMyListList()
       .then(response => {
           setBoards(response.data);
-          console.log(boards)
         })
       .catch(error => console.error(error));  
   }, []);
 
   const handleClick = (pk: number) => {
-    navigate(`/board/${pk}`)
+    navigate(`/board/${pk}`, {replace: true})
   }
 
   return (
     <div className="container mt-4">
-    <h2 className="mb-4">Board List</h2>
+    <h2 className="mb-4">My Boards</h2>
     <div className="row">
       {boards?.data.map((board) => (
         <div key={board.pk} className="col-lg-3 col-md-6 col-sm-12 mb-4">
@@ -53,7 +52,7 @@ const MyBoards = () => {
                     style={{ objectFit: 'cover', height: '50px', width: '50px'}}
                   />
                 )}
-                <h4 className="card-title ml-3 mb-0">{board.title}</h4>
+                <h4 className="card-title ml-3 mb-0" onClick={()=>handleClick(board.pk)}>{board.title}</h4>
               </div>
               <p className="card-description mt-2">{board.description}</p>
               <p className="card-info">
