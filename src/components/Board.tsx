@@ -31,6 +31,7 @@ const BoardDetail = () => {
         progress: undefined,
         theme: "light",
     });
+    
     const [isEditing, setIsEditing] = useState(false);
     const [user, setData] = useState<User | null>(null);
     const [tasks, setTasks] = useState<TaskList | null>(null);
@@ -140,9 +141,9 @@ const BoardDetail = () => {
                     />
                     <img
                         style={{ height: 80, width: 80, objectFit: 'cover'}}
-                        src={board?.list_image} // Replace with the default image URL
+                        src={board?.list_image || file} 
                         alt="Board Image"
-                        className="img-fluid clickable-image rounded-circle grey-on-hover"
+                        className="img clickable-image rounded-circle grey-on-hover"
                         onClick={handleImageClick}
                     />
                 </div>
