@@ -13,7 +13,7 @@ import './Board.css';
 import { MultiSelect } from 'primereact/multiselect';
 
 const BoardDetail = () => {
-    const notifySuccess = (taskname: string) => toast.success(`Task: '${taskname}' was successfully updated!`, {
+    const notifySuccess = (title: string) => toast.success(`Board: '${title}' was successfully updated!`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -23,7 +23,7 @@ const BoardDetail = () => {
         progress: undefined,
         theme: "light",
     });
-    const notifyError = (taskname: string) => toast.error(`Task: '${taskname}' failed to update.`, {
+    const notifyError = (title: string) => toast.error(`Board: '${title}' failed to update.`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,

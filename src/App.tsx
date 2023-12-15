@@ -10,6 +10,7 @@ import BoardDetail from './components/Board';
 import MyBoards from './components/MyBoards';
 import ProfileDetail from './components/Profile';
 import MyGroups from './components/MyGroups';
+import GroupDetail from './components/Group';
 import Auth from './components/Auth';
 import Navbar from './components/Navbar';
 import { useEffect, useState } from 'react';
@@ -41,6 +42,8 @@ const App = () => {
             <Route path="/board/:pk" element={<BoardDetail />} />
             <Route path="/board/" element={<BoardDetail />} />
             <Route path="/mygroups" element={<MyGroups />} />
+            <Route path="/group/" element={<GroupDetail />} />
+            <Route path="/group/:pk" element={<GroupDetail />} />
             <Route path="/myprofile" element={<ProfileDetail />} />
             <Route path="/profile/:pk" element={<ProfileDetail />} />
           </Routes>
