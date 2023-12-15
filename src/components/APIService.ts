@@ -1,7 +1,6 @@
 import axiosInstance from '../util/myinterceptor'
 // Change the API_URL to the correct location of the backend API before deploying the app
 const API_URL = 'dannyjll.pythonanywhere.com'
-// TC
 
 export class APIService {
    getTask(param_pk: any) {
