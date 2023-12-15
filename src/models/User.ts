@@ -1,5 +1,5 @@
 export interface User {
-    pk?: number,
+    pk: number,
     username: string,
     is_superuser: boolean,
     first_name: string,

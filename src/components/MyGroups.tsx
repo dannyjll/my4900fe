@@ -62,6 +62,18 @@ const MyGroups = () => {
   const handleClickNull = () => {
     navigate(`/group/`, { replace: true })
   }
+  const handleBoardClick = (pk: number) => {
+    if (pk) {
+      navigate(`/board/${pk}`, { replace: true })
+    }
+  }
+  const handleUserClick = (pk: number) => {
+    if (pk) {
+      navigate(`/profile/${pk}`, { replace: true })
+    }
+  }
+  
+  
 
   return (
     <div className="container mt-5">
@@ -78,13 +90,13 @@ const MyGroups = () => {
                       <li className="list-group-item">
                       <div>
                           <strong>Users:</strong>
-                          <div>{group.usersDetails.map((user) => <div key={user.pk}>{user.username}</div>)}</div>
+                          <div>{group.usersDetails.map((user) => <div onClick={() => handleUserClick(user.pk)} key={user.pk}>{user.username}</div>)}</div>
                         </div>
                       </li>
                       <li className="list-group-item">
                         <div>
-                          <strong>Lists:</strong>
-                          <div>{group.listsDetails.map((board) => <div key={board.pk}>{board.title}</div>)}</div>
+                          <strong>Boards:</strong>
+                          <div>{group.listsDetails.map((board) => <div onClick={() => handleBoardClick(board.pk)} key={board.pk}>{board.title}</div>)}</div>
                         </div>
                       </li>
                     </ul>
