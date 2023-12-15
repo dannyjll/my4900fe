@@ -1,6 +1,6 @@
 import axiosInstance from '../util/myinterceptor'
 // Change the API_URL to the correct location of the backend API before deploying the app
-const API_URL = 'https://192.168.68.62:8000'
+const API_URL = 'dannyjll.pythonanywhere.com'
 
 
 export class APIService {
