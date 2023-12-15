@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
       <div className="container">
-        <h1 className="mb-4">Welcome {data?.username} to HoneyDo</h1>
+        <h1 className="my-5">Welcome {data?.username} to HoneyDo</h1>
         <div className="container mt-5">
           <div className="container mt-5">
             <div className="jumbotron">

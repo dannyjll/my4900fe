@@ -17,54 +17,70 @@ const MyBoards = () => {
         setData(response.data);
       })
       .catch(error => console.error(error));
-      apiService.getMyListList()
+    apiService.getMyListList()
       .then(response => {
-          setBoards(response.data);
-        })
-      .catch(error => console.error(error));  
+        setBoards(response.data);
+      })
+      .catch(error => console.error(error));
   }, []);
 
   const handleClick = (pk: number) => {
-    navigate(`/board/${pk}`, {replace: true})
+    if (pk) {
+    navigate(`/board/${pk}`, { replace: false })
+    }
+  }
+  const handleClickNull = () => {
+    navigate(`/board/`, { replace: false })
   }
 
   return (
-    <div className="container mt-4">
-    <h2 className="mb-4">My Boards</h2>
-    <div className="row">
-      {boards?.data.map((board) => (
-        <div key={board.pk} className="col-lg-3 col-md-6 col-sm-12 mb-4">
-          <div className="card border-0 shadow-sm">
-            <div className="card-body">
-              <div className="d-flex align-items-center">
-                {board.list_image ? (
-                  <img
-                    src={board.list_image}
-                    className="card-image rounded-circle d-inline"
-                    alt="List Image"
-                    style={{ objectFit: 'cover', height: '50px', width: '50px'}}
-                  />
-                ) : (
-                  <img
-                    src="placeholder-image-url" // Replace with your placeholder image URL
-                    alt="Placeholder"
-                    className="board-placeholder-image rounded-circle"
-                    style={{ objectFit: 'cover', height: '50px', width: '50px'}}
-                  />
-                )}
-                <h4 className="card-title ml-3 mb-0" onClick={()=>handleClick(board.pk)}>{board.title}</h4>
+    <div className="container mt-5">
+      <h1 className="mb-4">My Boards</h1>
+      <div className="row">
+        {Array.isArray(boards?.data) && (boards?.data?.length || 0) > 0 ? (
+          boards?.data.map((board) => (
+            <div key={board.pk} className="col-lg-3 col-md-6 col-sm-12 mb-4">
+              <div className="card border-0 shadow-sm">
+                <div className="card-body">
+                  <div className="d-flex align-items-center">
+                    {board.list_image ? (
+                      <div>
+                      <img
+                        src={board.list_image}
+                        className="card-image rounded-circle d-inline"
+                        alt="List Image"
+                        style={{ height: 50, width: 50, objectFit: 'cover', }}
+                      />
+                      </div>
+                    ) : (
+                      <div>
+                      <img
+                        src="placeholder-image-url"
+                        alt="Placeholder"
+                        className="board-placeholder-image rounded-circle"
+                        style={{ height: 50, width: 50, objectFit: 'cover' }}
+                      />
+                      </div>
+                    )}
+                    <h4 className="card-title ml-3 mb-0" onClick={() => handleClick(board.pk)}>{board.title}</h4>
+                  </div>
+                  <p className="card-description mt-2">{board.description}</p>
+                  <p className="card-info">
+                    <strong>PK:</strong> {board.pk} | <strong>Group Set:</strong>{' '}
+                    {board.group_set.join(', ')}
+                  </p>
+                </div>
               </div>
-              <p className="card-description mt-2">{board.description}</p>
-              <p className="card-info">
-                <strong>PK:</strong> {board.pk} | <strong>Group Set:</strong>{' '}
-                {board.group_set.join(', ')}
-              </p>
             </div>
+          ))
+        ) : (
+          <div>
+            <p>No boards available</p>
           </div>
-        </div>
-      ))}
+        )}
+      </div>
+      <button type="button" className="btn btn-outline-success shadow-sm border-0" onClick={() => handleClickNull()}>Add Board</button>
     </div>
-  </div>
   );
-};
+}
 export default MyBoards

@@ -25,7 +25,12 @@ const MyTasks = () => {
   }, []);
 
   const handleClick = (pk: number) => {
-    navigate(`/task/${pk}`)
+    if (pk) {
+    navigate(`/task/${pk}`,{ replace: true })
+    }
+  }
+  const handleClickNull = () => {
+    navigate(`/task/`, { replace: true })
   }
 
   const renderCardContent = (task: any, index: number) => (
@@ -44,7 +49,6 @@ const MyTasks = () => {
         <li className="list-group-item">
           <strong>Difficulty:</strong> {task.difficulty}
         </li>
-        {/* Add more attributes as needed */}
       </ul>
     </>
   );
@@ -53,19 +57,26 @@ const MyTasks = () => {
     <div className="container mt-5">
       <h1 className="mb-4">My Tasks</h1>
       <div className="row">
-        {tasks?.data.map((task, index) => (
-          <div key={task.pk} className="col-lg-4 col-md-6 col-sm-12 mb-4">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title" onClick={()=>handleClick(task.pk)}>{task.title}</h5>
-                <div>
-                  {renderCardContent(task, index)}
+        {Array.isArray(tasks?.data) && (tasks?.data?.length || 0) > 0 ? (
+          tasks?.data.map((task, index) => (
+            <div key={task.pk} className="col-lg-4 col-md-6 col-sm-12 mb-4">
+              <div className="card h-100 border-0 shadow-sm">
+                <div className="card-body">
+                  <h5 className="card-title" onClick={() => handleClick(task.pk)}>{task.title}</h5>
+                  <div>
+                    {renderCardContent(task, index)}
+                  </div>
                 </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div>
+            <p>No tasks available</p>
           </div>
-        ))}
+        )}
       </div>
+      <button type="button" className="btn btn-outline-success shadow-sm border-0" onClick={() => handleClickNull()}>Add Task</button>
     </div>
   );
 };

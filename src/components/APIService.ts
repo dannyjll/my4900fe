@@ -1,6 +1,6 @@
 import axiosInstance from '../util/myinterceptor'
 // Change the API_URL to the correct location of the backend API before deploying the app
-const API_URL = 'http://127.0.0.1:8000'
+const API_URL = 'https://192.168.68.62:8000'
 
 
 export class APIService {
@@ -44,9 +44,28 @@ export class APIService {
       const url = `${API_URL}/api/gettasksfromlist/${list_pk}`;
       return axiosInstance.get(url);
    }
-   addNewList(list: any) {
+   addNewList(list: any, image: any) {
       const url = `${API_URL}/api/lists/`;
-      return axiosInstance.post(url, list);
+      const imagetype = typeof(image)
+      const fd = new FormData();
+      if (image != null) {
+         for (let key in list) {
+            if (list.hasOwnProperty(key)) {
+               if (key == 'group_set' || key == 'category' || key == 'task_set') {
+                  for (let k in list[key]) {
+                     fd.append(key, JSON.stringify(list[key][k]))
+                  }
+               }
+               else if (key == 'list_image' && imagetype == 'string') {
+                  continue
+               }
+               else {
+                  fd.append(key, list[key]);
+               }
+            }
+         }
+      }
+      return axiosInstance.post(url, fd);
    }
    updateList(list: any, image: any) {
       const url = `${API_URL}/api/lists/${list.pk}`;
@@ -85,6 +104,14 @@ export class APIService {
    }
    getMyGroupList() {
       const url = `${API_URL}/api/mygroups/`;
+      return axiosInstance.get(url);
+   }
+   getUsersFromGroup(pk: any) {
+      const url = `${API_URL}/api/getusersfromgroup/${pk}`;
+      return axiosInstance.get(url);
+   }
+   getListsFromGroup(pk: any) {
+      const url = `${API_URL}/api/getlistsfromgroup/${pk}`;
       return axiosInstance.get(url);
    }
    addNewGroup(group: any) {
@@ -184,15 +211,15 @@ export class APIService {
       return axiosInstance.post(url, credentials);
    }
    getUser() {
-      const url = `${API_URL}/api/getUser/`;
+      const url = `${API_URL}/api/getuser/`;
       return axiosInstance.get(url);
    }
    getAllUsers() {
-      const url = `${API_URL}/api/getAllUsers/`;
+      const url = `${API_URL}/api/getallusers/`;
       return axiosInstance.get(url);
    }
    getUserFromPK(pk: any) {
-      const url = `${API_URL}/api/getUserFromPK/${pk}`;
+      const url = `${API_URL}/api/getuserfrompk/${pk}`;
       return axiosInstance.get(url);
    }
 }

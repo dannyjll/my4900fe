@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+    var imageBasePath = window.location.protocol + "//" + window.location.host;
+    var img = imageBasePath + '/bgpngtransparent.png'
     const isAuthenticated = localStorage.getItem('isAuthenticated')
     const navigate = useNavigate()
     const logout = () => {
@@ -10,7 +12,7 @@ const Navbar = () => {
     };
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-3">
-            <img className="img-thumbnail img-fluid mx-auto d-block" src="bgpngtransparent.png" style={{ width: 40 }} alt="HoneyDo Logo" />
+            <img className="img-thumbnail img-fluid mx-auto d-block" src={img} style={{ width: 40 }} alt="HoneyDo Logo" />
             <div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                     <li className="nav-item">
