@@ -163,7 +163,7 @@ const TaskDetail = () => {
             setTitleError('');
         }
 
-        if (name === 'description' && ((value.trim() === '' || value.length > 1000))) {
+        if (name === 'description' && (value.trim() === '' || value.length > 1000)) {
             setDescriptionError('Validate your description');
         } else {
             setDescriptionError('');

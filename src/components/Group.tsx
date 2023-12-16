@@ -81,7 +81,7 @@ const GroupDetail = () => {
     const handleInputChange = (e: any) => {
         let { name, value } = e.target;
 
-        if (name === 'title' && value.trim() === '' || value.length > 200) {
+        if (name === 'title' && (value.trim() === '' || value.length > 200)) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
@@ -102,7 +102,7 @@ const GroupDetail = () => {
     const handleNewInputChange = (e: any) => {
         let { name, value } = e.target;
 
-        if (name === 'title' && value.trim() === '' || value.length > 200) {
+        if (name === 'title' && (value.trim() === '' || value.length > 200)) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');

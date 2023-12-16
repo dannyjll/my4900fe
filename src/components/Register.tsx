@@ -14,6 +14,49 @@ const Register = () => {
   const [lastname, setLastName] = useState('');
   const navigate = useNavigate()
 
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [firstnameError, setFirstNameError] = useState('');
+  const [lastnameError, setLastNameError] = useState('');
+
+  const isButtonDisabled = !(usernameError.length < 1 && passwordError.length < 1 && emailError.length < 1 && firstnameError.length < 1 && lastnameError.length < 1 );
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+
+    if (name === 'username' && (value.trim() === '' || value.length > 150)) {
+      setUsernameError('Validate your username');
+    } else {
+      setUsernameError('');
+    }
+
+    if (name === 'password' && (value.trim() === '' || value.length < 6)) {
+      setPasswordError('Validate your password');
+    } else {
+      setPasswordError('');
+    }
+
+    if (name === 'email' && (value.trim() === '' || !value.includes('@') || !value.includes('.com'))) {
+      setEmailError('Validate your email');
+    } else {
+      setEmailError('');
+    }
+
+    if (name === 'firstname' && (value.trim() === '' || value.length > 150)) {
+      setFirstNameError('Validate your firstname');
+    } else {
+      setFirstNameError('');
+    }
+
+    if (name === 'lastname' && (value.trim() === '' || value.length > 150)) {
+      setLastNameError('Validate your lastname');
+    } else {
+      setLastNameError('');
+    }
+
+  };
+
   const notifySuccess = (title: string) => toast.success(`Account '${title}' was successfully created!`, {
     position: "top-center",
     autoClose: 2000,
@@ -44,108 +87,114 @@ const Register = () => {
       "password2": password2,
       "email": email,
       "first_name": firstname,
-      "last_name" : lastname, 
+      "last_name": lastname,
     }).then(response => {
-        localStorage.clear()
-        navigate("/auth", {replace: true})
-        notifySuccess(username)
+      localStorage.clear()
+      navigate("/auth", { replace: true })
+      notifySuccess(username)
     }).catch(error => {
-        console.error(error)
-        notifyError(username)
+      console.error(error)
+      notifyError(username)
     })
   };
 
   return (
-          <div className="container mt-5">
-            <div className="row justify-content-center">
-              <div className="col-md-6">
-                <div className="card">
-                  <div className="card-header">
-                    <h3 className="text-center">Register</h3>
-                  </div>
-                  <div className="card-body">
-                    <form onSubmit={handleSubmit}>
-                      <div className="form-group">
-                        <label htmlFor="username">Username:</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="username"
-                          placeholder="Enter your username"
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="password">Password:</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="password"
-                          placeholder="Enter your password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="password2">Confirm Password:</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="password2"
-                          placeholder="Enter your password again"
-                          value={password2}
-                          onChange={(e) => setPassword2(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="email"
-                          placeholder="Enter your email address"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="firstname">First Name:</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="firstname"
-                          placeholder="Enter your first name"
-                          value={firstname}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="lastname">Last Name:</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="lastname"
-                          placeholder="Enter your last name"
-                          value={lastname}
-                          onChange={(e) => setLastName(e.target.value)}
-                          required
-                        />
-                      </div>
-                      <button type="submit" className="btn btn-primary btn-block mt-2">
-                        Register
-                      </button>
-                    </form>
-                  </div>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-header">
+              <h3 className="text-center">Register</h3>
+            </div>
+            <div className="card-body">
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="username">Username:</label>
+                  <input
+                    type="text"
+                    className={`form-control ${usernameError ? 'is-invalid' : ''}`}
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => {setUsername(e.target.value); handleInputChange(e)}}
+                    required
+                  />
                 </div>
-              </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password:</label>
+                  <input
+                    type="password"
+                    className={`form-control ${passwordError ? 'is-invalid' : ''}`}
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => {setPassword(e.target.value); handleInputChange(e)}}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password2">Confirm Password:</label>
+                  <input
+                    type="password"
+                    className={`form-control`}
+                    name="password2"
+                    id="password2"
+                    placeholder="Enter your password again"
+                    value={password2}
+                    onChange={(e) => {setPassword2(e.target.value); handleInputChange(e)}}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    className={`form-control ${emailError ? 'is-invalid' : ''}`}
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => {setEmail(e.target.value); handleInputChange(e)}}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="firstname">First Name:</label>
+                  <input
+                    type="text"
+                    className={`form-control ${firstnameError ? 'is-invalid' : ''}`}
+                    id="firstname"
+                    name="firstname"
+                    placeholder="Enter your first name"
+                    value={firstname}
+                    onChange={(e) => {setFirstName(e.target.value); handleInputChange(e)}}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lastname">Last Name:</label>
+                  <input
+                    type="text"
+                    className={`form-control ${lastnameError ? 'is-invalid' : ''}`}
+                    id="lastname"
+                    name="lastname"
+                    placeholder="Enter your last name"
+                    value={lastname}
+                    onChange={(e) => {setLastName(e.target.value); handleInputChange(e)}}
+                    required
+                  />
+                </div>
+                <button type="submit" disabled={isButtonDisabled} className="btn btn-primary btn-block mt-2">
+                  Register
+                </button>
+              </form>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

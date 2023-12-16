@@ -121,19 +121,19 @@ const BoardDetail = () => {
     const handleInputChangeNew = (e: any) => {
         const { name, value } = e.target;
         
-        if (name === 'title' && value.trim() === '' || value.length > 100) {
+        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
 
-        if (name === 'description' && value.trim() === '' || value.length > 1000) {
+        if (name === 'description' && (value.trim() === '' || value.length > 1000)) {
             setDescriptionError('Validate your description');
         } else {
             setDescriptionError('');
         }
 
-        if (name === 'notes' && value.trim() === '' || value.length > 1000) {
+        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
             setNotesError('Validate your notes');
         } else {
             setNotesError('');
@@ -288,19 +288,19 @@ const BoardDetail = () => {
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
 
-        if (name === 'title' && value.trim() === '' || value.length > 100) {
+        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
 
-        if (name === 'description' && value.trim() === '' || value.length > 1000) {
+        if (name === 'description' && (value.trim() === '' || value.length > 1000)) {
             setDescriptionError('Validate your description');
         } else {
             setDescriptionError('');
         }
 
-        if (name === 'notes' && value.trim() === '' || value.length > 1000) {
+        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
             setNotesError('Validate your notes');
         } else {
             setNotesError('');
