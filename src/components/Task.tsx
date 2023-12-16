@@ -99,91 +99,110 @@ const TaskDetail = () => {
         }
         ).catch(response =>
             console.error(response.error))
+        setTitleError('');
     }, []);
 
     const handleInputChange = (e: any) => {
         let { name, value } = e.target;
+
         if (name === 'title' && (value.trim() === '' || value.length > 100)) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
+
         if (name === 'description' && ((value.trim() === '' || value.length > 1000))) {
             setDescriptionError('Validate your description');
         } else {
             setDescriptionError('');
         }
+
         if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
             setNotesError('Validate your notes');
         } else {
             setNotesError('');
         }
+
         if (name === 'user' && (value.length < 1)) {
             setAssigneeError('Validate your assignee');
         } else {
             setAssigneeError('');
         }
+
         if (name === 'board' && (value.length < 1)) {
             setBoardError('Validate your board');
         } else {
             setBoardError('');
         }
+
         if (name === 'due_date' && (value.length < 1)) {
-            setDateError('Validate your board');
+            setDateError('Validate your due date');
         } else {
             setDateError('');
         }
+
         if (name === 'difficulty' && (value.length < 1 || value < 1 || value > 10 )) {
-            setDifficultyError('Validate your assignee');
+            setDifficultyError('Validate your difficulty');
         } else {
             setDifficultyError('');
         }
+        
         if (name === 'completion_status') {
             value = e.target.checked
         }
+
         setTask({ ...task, [name]: value });
     };
 
     const handleNewInputChange = (e: any) => {
         let { name, value } = e.target;
+
         if (name === 'title' && (value.trim() === '' || value.length > 100)) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
+
         if (name === 'description' && ((value.trim() === '' || value.length > 1000))) {
             setDescriptionError('Validate your description');
         } else {
             setDescriptionError('');
         }
+
         if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
             setNotesError('Validate your notes');
         } else {
             setNotesError('');
         }
+
         if (name === 'user' && (value.length < 1)) {
             setAssigneeError('Validate your assignee');
         } else {
             setAssigneeError('');
         }
+
         if (name === 'board' && (value.length < 1)) {
             setBoardError('Validate your board');
         } else {
             setBoardError('');
         }
+
         if (name === 'due_date' && (value.length < 1)) {
-            setDateError('Validate your board');
+            setDateError('Validate your due date');
         } else {
             setDateError('');
         }
+
         if (name === 'difficulty' && (value.length < 1 || value < 1 || value > 10 )) {
-            setDifficultyError('Validate your assignee');
+            setDifficultyError('Validate your difficulty');
         } else {
             setDifficultyError('');
         }
+
         if (name === 'completion_status') {
             value = e.target.checked
         }
+
         setNewTask({ ...newtask, [name]: value });
     };
 
@@ -358,14 +377,14 @@ const TaskDetail = () => {
                         />
                     </div>
 
-                    <button type="button" className="btn btn-secondary" onClick={handleEditToggle}>
-                        {isEditing ? 'Cancel' : 'Edit'}
-                    </button>
+                    <button type="button" className="btn btn-outline-secondary shadow-sm border-0" onClick={handleEditToggle}>
+                    {isEditing ? 'Cancel' : 'Edit'}
+                </button>
 
-                    {isEditing && (
-                        <button type="submit" className="btn btn-primary" disabled={isButtonDisabled}>
-                            Save Changes
-                        </button>
+                {isEditing && (
+                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0" disabled={isButtonDisabled}>
+                        Save Changes
+                    </button>
                     )}
                 </form>
             </div>

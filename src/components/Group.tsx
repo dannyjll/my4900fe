@@ -80,11 +80,13 @@ const GroupDetail = () => {
 
     const handleInputChange = (e: any) => {
         let { name, value } = e.target;
+
         if (name === 'title' && value.trim() === '' || value.length > 200) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
+
         if (name === 'users' && value.length < 1) {
             setUserError('Validate your users');
         } else {
@@ -93,27 +95,29 @@ const GroupDetail = () => {
         if (name === 'completion_status') {
             value = e.target.checked
         }
+        
         setGroup({ ...group, [name]: value });
     };
 
     const handleNewInputChange = (e: any) => {
         let { name, value } = e.target;
+
         if (name === 'title' && value.trim() === '' || value.length > 200) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
+
         if (name === 'users' && value.length < 1) {
             setUserError('Validate your users');
         } else {
             setUserError('');
         }
+
         if (name === 'completion_status') {
             value = e.target.checked
         }
-        if (name === 'completion_status') {
-            value = e.target.checked
-        }
+
         setNewGroup({ ...newgroup, [name]: value });
     };
 

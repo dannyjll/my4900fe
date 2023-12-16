@@ -120,26 +120,31 @@ const BoardDetail = () => {
     }
     const handleInputChangeNew = (e: any) => {
         const { name, value } = e.target;
+        
         if (name === 'title' && value.trim() === '' || value.length > 100) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
+
         if (name === 'description' && value.trim() === '' || value.length > 1000) {
             setDescriptionError('Validate your description');
         } else {
             setDescriptionError('');
         }
+
         if (name === 'notes' && value.trim() === '' || value.length > 1000) {
             setNotesError('Validate your notes');
         } else {
             setNotesError('');
         }
+
         if (name === 'group_set' && value.length < 1) {
             setGroupError('Validate your group set');
         } else {
             setGroupError('');
         }
+
         if (name === 'list_image' && e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(URL.createObjectURL(selectedFile));
@@ -282,26 +287,31 @@ const BoardDetail = () => {
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
+
         if (name === 'title' && value.trim() === '' || value.length > 100) {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
         }
+
         if (name === 'description' && value.trim() === '' || value.length > 1000) {
             setDescriptionError('Validate your description');
         } else {
             setDescriptionError('');
         }
+
         if (name === 'notes' && value.trim() === '' || value.length > 1000) {
             setNotesError('Validate your notes');
         } else {
             setNotesError('');
         }
+
         if (name === 'group_set' && value.length < 1) {
             setGroupError('Validate your group set');
         } else {
             setGroupError('');
         }
+        
         if (name === 'list_image' && e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(URL.createObjectURL(selectedFile));
