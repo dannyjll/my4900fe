@@ -46,7 +46,7 @@ const Home = () => {
               <div className="text-center">
                 <h5>My Groups</h5>
                 <p>Manage your task groups.</p>
-                <Link to="/mygroups" className="btn btn-primary">Go to My Groups</Link>
+                <Link to="/mygroups" className="btn btn-outline-primary border-0 shadow-sm">Go to My Groups</Link>
               </div>
             </div>
 
@@ -54,7 +54,7 @@ const Home = () => {
               <div className="text-center">
                 <h5>My Boards</h5>
                 <p>Organize tasks on boards.</p>
-                <Link to="/myboards" className="btn btn-primary">Go to My Boards</Link>
+                <Link to="/myboards" className="btn btn-outline-primary border-0 shadow-sm">Go to My Boards</Link>
               </div>
             </div>
 
@@ -62,7 +62,7 @@ const Home = () => {
               <div className="text-center">
                 <h5>My Tasks</h5>
                 <p>View and manage your tasks.</p>
-                <Link to="/mytasks" className="btn btn-primary">Go to My Tasks</Link>
+                <Link to="/mytasks" className="btn btn-outline-primary border-0 shadow-sm">Go to My Tasks</Link>
               </div>
             </div>
 
@@ -70,7 +70,7 @@ const Home = () => {
               <div className="text-center">
                 <h5>My Profile</h5>
                 <p>View and update your profile.</p>
-                <Link to="/myprofile" className="btn btn-primary">Go to My Profile</Link>
+                <Link to="/myprofile" className="btn btn-outline-primary border-0 shadow-sm">Go to My Profile</Link>
               </div>
             </div>
           </div>

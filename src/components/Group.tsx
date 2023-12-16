@@ -95,7 +95,7 @@ const GroupDetail = () => {
         if (name === 'completion_status') {
             value = e.target.checked
         }
-        
+
         setGroup({ ...group, [name]: value });
     };
 
@@ -207,12 +207,12 @@ const GroupDetail = () => {
                     />
                 </div>
 
-                    <button type="button" className="btn btn-secondary" onClick={handleEditToggle}>
+                    <button type="button" className="btn btn-outline-secondary shadow-sm border-0" onClick={handleEditToggle}>
                         {isEditing ? 'Cancel' : 'Edit'}
                     </button>
 
                     {isEditing && (
-                        <button type="submit" disabled={isButtonDisabled} className="btn btn-primary">
+                        <button type="submit" disabled={isButtonDisabled} className="btn btn-outline-primary shadow-sm border-0">
                             Save Changes
                         </button>
                     )}
