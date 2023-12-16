@@ -13,6 +13,38 @@ import './Board.css';
 import { MultiSelect } from 'primereact/multiselect';
 
 const BoardDetail = () => {
+    const [titleError, setTitleError] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
+    const [notesError, setNotesError] = useState('');
+    const [groupSetError, setGroupError] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [user, setData] = useState<User | null>(null);
+    const [tasks, setTasks] = useState<TaskList | null>(null);
+    const [board, setBoard] = useState<Board>()
+    const [groups, setGroups] = useState<Group[] | null>(null)
+    const [task, setTask] = useState<Task>({
+        pk: 0,
+        title: '',
+        description: '',
+        completion_status: false,
+        due_date: '',
+        notes: '',
+        user: 0,
+        list: 0,
+        difficulty: 0,
+    });
+
+    const [newboard, setNewBoard] = useState<Partial<Board>>({
+        pk: 0,
+        title: '',
+        description: '',
+        list_image: '',
+        group_set: [],
+    });
+    const [file, setFile] = useState<string>();
+    const { pk } = useParams();
+    const apiService = new APIService();
+    const navigate = useNavigate()
     const notifySuccess = (title: string) => toast.success(`'${title}' was successfully updated!`, {
         position: "top-center",
         autoClose: 2000,
@@ -34,33 +66,8 @@ const BoardDetail = () => {
         theme: "light",
     });
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [user, setData] = useState<User | null>(null);
-    const [tasks, setTasks] = useState<TaskList | null>(null);
-    const [board, setBoard] = useState<Board>()
-    const [groups, setGroups] = useState<Group[] | null>(null)
-    const [task, setTask] = useState<Task>({
-        pk: 0,
-        title: '',
-        description: '',
-        completion_status: false,
-        due_date: '',
-        notes: '',
-        user: 0,
-        list: 0,
-        difficulty: 0,
-    });
-    const [newboard, setNewBoard] = useState<Partial<Board>>({
-        pk: 0,
-        title: '',
-        description: '',
-        list_image: '',
-        group_set: [],
-    });
-    const [file, setFile] = useState<string>();
-    const { pk } = useParams();
-    const apiService = new APIService();
-    const navigate = useNavigate()
+    const isButtonDisabled = !(groupSetError.length < 1 && titleError.length < 1 &&  descriptionError.length < 1 && notesError.length < 1);
+
 
     const handleClickNull = () => {
         navigate(`/task/`, { replace: true })
@@ -97,11 +104,11 @@ const BoardDetail = () => {
             value = e.target.checked
         }
         apiService.updateTask({ ...task, [name]: value })
-        .then(response => {
-            notifySuccess(task.title)
-            setTask(response.data);
-        })
-        .catch(error => notifyError(error))
+            .then(response => {
+                notifySuccess(task.title)
+                setTask(response.data);
+            })
+            .catch(error => notifyError(error))
     };
 
     const handleEditToggle = () => {
@@ -113,6 +120,26 @@ const BoardDetail = () => {
     }
     const handleInputChangeNew = (e: any) => {
         const { name, value } = e.target;
+        if (name === 'title' && value.trim() === '' || value.length > 100) {
+            setTitleError('Validate your title');
+        } else {
+            setTitleError('');
+        }
+        if (name === 'description' && value.trim() === '' || value.length > 1000) {
+            setDescriptionError('Validate your description');
+        } else {
+            setDescriptionError('');
+        }
+        if (name === 'notes' && value.trim() === '' || value.length > 1000) {
+            setNotesError('Validate your notes');
+        } else {
+            setNotesError('');
+        }
+        if (name === 'group_set' && value.length < 1) {
+            setGroupError('Validate your group set');
+        } else {
+            setGroupError('');
+        }
         if (name === 'list_image' && e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(URL.createObjectURL(selectedFile));
@@ -178,7 +205,7 @@ const BoardDetail = () => {
                         </label>
                         <input
                             type="text"
-                            className="form-control"
+                            className={`form-control ${titleError ? 'is-invalid' : ''}`}
                             id="title"
                             placeholder="Enter board title"
                             name="title"
@@ -192,7 +219,7 @@ const BoardDetail = () => {
                             Description
                         </label>
                         <textarea
-                            className="form-control"
+                            className={`form-control ${descriptionError ? 'is-invalid' : ''}`}
                             id="description"
                             rows={3}
                             placeholder="Enter board description"
@@ -207,7 +234,7 @@ const BoardDetail = () => {
                             Description
                         </label>
                         <textarea
-                            className="form-control"
+                            className={`form-control ${notesError ? 'is-invalid' : ''}`}
                             id="notes"
                             rows={3}
                             placeholder="Enter board notes"
@@ -224,6 +251,7 @@ const BoardDetail = () => {
                         </label>
                         <br />
                         <MultiSelect
+                            className={`${groupSetError ? 'is-invalid' : ''}`}
                             value={newboard?.group_set}
                             onChange={(e) => handleInputChangeNew(e)}
                             options={groups ? groups?.map(group => ({ title: group.title, pk: group.pk })) : []}
@@ -243,7 +271,7 @@ const BoardDetail = () => {
                     </button>
 
                     {isEditing && (
-                        <button type="submit" className="btn btn-outline-primary shadow-sm border-0">
+                        <button type="submit" disabled={isButtonDisabled} className="btn btn-outline-primary shadow-sm border-0">
                             Save Changes
                         </button>
                     )}
@@ -254,6 +282,26 @@ const BoardDetail = () => {
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
+        if (name === 'title' && value.trim() === '' || value.length > 100) {
+            setTitleError('Validate your title');
+        } else {
+            setTitleError('');
+        }
+        if (name === 'description' && value.trim() === '' || value.length > 1000) {
+            setDescriptionError('Validate your description');
+        } else {
+            setDescriptionError('');
+        }
+        if (name === 'notes' && value.trim() === '' || value.length > 1000) {
+            setNotesError('Validate your notes');
+        } else {
+            setNotesError('');
+        }
+        if (name === 'group_set' && value.length < 1) {
+            setGroupError('Validate your group set');
+        } else {
+            setGroupError('');
+        }
         if (name === 'list_image' && e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(URL.createObjectURL(selectedFile));
@@ -267,6 +315,7 @@ const BoardDetail = () => {
         } else {
             setBoard({ ...board, [name]: value });
         }
+
     };
 
     const handleSubmit = (e: any) => {
@@ -347,7 +396,7 @@ const BoardDetail = () => {
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${titleError ? 'is-invalid' : ''}`}
                         id="title"
                         placeholder="Enter board title"
                         name="title"
@@ -361,7 +410,7 @@ const BoardDetail = () => {
                         Description
                     </label>
                     <textarea
-                        className="form-control"
+                        className={`form-control ${descriptionError ? 'is-invalid' : ''}`}
                         id="description"
                         rows={3}
                         placeholder="Enter board description"
@@ -376,7 +425,7 @@ const BoardDetail = () => {
                         Notes
                     </label>
                     <textarea
-                        className="form-control"
+                        className={`form-control ${notesError ? 'is-invalid' : ''}`}
                         id="notes"
                         rows={3}
                         placeholder="Enter board notes"
@@ -393,6 +442,7 @@ const BoardDetail = () => {
                     </label>
                     <br />
                     <MultiSelect
+                        className={`${groupSetError ? 'is-invalid' : ''}`}
                         value={board.group_set}
                         onChange={(e) => handleInputChange(e)}
                         options={groups ? groups?.map(group => ({ title: group.title, pk: group.pk })) : []}
@@ -412,7 +462,7 @@ const BoardDetail = () => {
                 </button>
 
                 {isEditing && (
-                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0">
+                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0" disabled={isButtonDisabled}>
                         Save Changes
                     </button>
                 )}

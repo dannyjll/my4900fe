@@ -61,6 +61,17 @@ const TaskDetail = () => {
         list: 0,
         difficulty: 0,
     });
+    
+    const [titleError, setTitleError] = useState('');
+    const [assigneeError, setAssigneeError] = useState('');
+    const [dateError, setDateError] = useState('');
+    const [boardError, setBoardError] = useState('');
+    const [notesError, setNotesError] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
+    const [difficultyError, setDifficultyError] = useState('');
+    const isButtonDisabled = !(assigneeError.length < 1 && titleError.length < 1 
+        && dateError.length < 1 && boardError.length < 1 
+        && notesError.length < 1 && descriptionError.length < 1 && difficultyError.length < 1);
 
     const handleDueDateChange = (date: any) => {
         setTask({ ...task, due_date: date.toISOString() });
@@ -92,6 +103,41 @@ const TaskDetail = () => {
 
     const handleInputChange = (e: any) => {
         let { name, value } = e.target;
+        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
+            setTitleError('Validate your title');
+        } else {
+            setTitleError('');
+        }
+        if (name === 'description' && ((value.trim() === '' || value.length > 1000))) {
+            setDescriptionError('Validate your description');
+        } else {
+            setDescriptionError('');
+        }
+        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
+            setNotesError('Validate your notes');
+        } else {
+            setNotesError('');
+        }
+        if (name === 'user' && (value.length < 1)) {
+            setAssigneeError('Validate your assignee');
+        } else {
+            setAssigneeError('');
+        }
+        if (name === 'board' && (value.length < 1)) {
+            setBoardError('Validate your board');
+        } else {
+            setBoardError('');
+        }
+        if (name === 'due_date' && (value.length < 1)) {
+            setDateError('Validate your board');
+        } else {
+            setDateError('');
+        }
+        if (name === 'difficulty' && (value.length < 1 || value < 1 || value > 10 )) {
+            setDifficultyError('Validate your assignee');
+        } else {
+            setDifficultyError('');
+        }
         if (name === 'completion_status') {
             value = e.target.checked
         }
@@ -100,6 +146,41 @@ const TaskDetail = () => {
 
     const handleNewInputChange = (e: any) => {
         let { name, value } = e.target;
+        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
+            setTitleError('Validate your title');
+        } else {
+            setTitleError('');
+        }
+        if (name === 'description' && ((value.trim() === '' || value.length > 1000))) {
+            setDescriptionError('Validate your description');
+        } else {
+            setDescriptionError('');
+        }
+        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
+            setNotesError('Validate your notes');
+        } else {
+            setNotesError('');
+        }
+        if (name === 'user' && (value.length < 1)) {
+            setAssigneeError('Validate your assignee');
+        } else {
+            setAssigneeError('');
+        }
+        if (name === 'board' && (value.length < 1)) {
+            setBoardError('Validate your board');
+        } else {
+            setBoardError('');
+        }
+        if (name === 'due_date' && (value.length < 1)) {
+            setDateError('Validate your board');
+        } else {
+            setDateError('');
+        }
+        if (name === 'difficulty' && (value.length < 1 || value < 1 || value > 10 )) {
+            setDifficultyError('Validate your assignee');
+        } else {
+            setDifficultyError('');
+        }
         if (name === 'completion_status') {
             value = e.target.checked
         }
@@ -144,7 +225,7 @@ const TaskDetail = () => {
                         </label>
                         <input
                             type="text"
-                            className="form-control"
+                            className={`form-control ${titleError ? 'is-invalid' : ''}`}
                             id="title"
                             placeholder="Enter task title"
                             name="title"
@@ -158,7 +239,7 @@ const TaskDetail = () => {
                             Description
                         </label>
                         <textarea
-                            className="form-control"
+                            className={`form-control ${descriptionError ? 'is-invalid' : ''}`}
                             id="description"
                             rows={3}
                             placeholder="Enter task description"
@@ -192,7 +273,7 @@ const TaskDetail = () => {
                         </div> : <div className="col-md-6">
                             <Calendar
                                 calendarType='iso8601'
-                                className="form-control"
+                                className={`form-control ${dateError ? 'is-invalid' : ''}`}
                                 id="due_date"
                                 name="due_date"
                                 onChange={handleNewDueDateChange}
@@ -212,7 +293,7 @@ const TaskDetail = () => {
                             Notes
                         </label>
                         <textarea
-                            className="form-control"
+                            className={`form-control ${notesError ? 'is-invalid' : ''}`}
                             id="notes"
                             rows={3}
                             placeholder="Enter notes"
@@ -228,7 +309,7 @@ const TaskDetail = () => {
                         </label>
                         <input
                             type="number"
-                            className="form-control"
+                            className={`form-control ${difficultyError ? 'is-invalid' : ''}`}
                             id="difficulty"
                             placeholder="Enter difficulty"
                             name="difficulty"
@@ -282,7 +363,7 @@ const TaskDetail = () => {
                     </button>
 
                     {isEditing && (
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary" disabled={isButtonDisabled}>
                             Save Changes
                         </button>
                     )}
@@ -301,7 +382,7 @@ const TaskDetail = () => {
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${titleError ? 'is-invalid' : ''}`}
                         id="title"
                         placeholder="Enter task title"
                         name="title"
@@ -316,7 +397,7 @@ const TaskDetail = () => {
                         Description
                     </label>
                     <textarea
-                        className="form-control"
+                        className={`form-control ${descriptionError ? 'is-invalid' : ''}`}
                         id="description"
                         rows={3}
                         placeholder="Enter task description"
@@ -352,7 +433,7 @@ const TaskDetail = () => {
                     </div> : <div className="col-md-6">
                         <Calendar
                             calendarType='iso8601'
-                            className="form-control"
+                            className={`form-control ${titleError ? 'is-invalid' : ''}`}
                             id="due_date"
                             name="due_date"
                             onChange={handleDueDateChange}
@@ -373,7 +454,7 @@ const TaskDetail = () => {
                         Notes
                     </label>
                     <textarea
-                        className="form-control"
+                        className={`form-control ${notesError ? 'is-invalid' : ''}`}
                         id="notes"
                         rows={3}
                         placeholder="Enter notes"
@@ -390,7 +471,7 @@ const TaskDetail = () => {
                     </label>
                     <input
                         type="number"
-                        className="form-control"
+                        className={`form-control ${difficultyError ? 'is-invalid' : ''}`}
                         id="difficulty"
                         placeholder="Enter difficulty"
                         name="difficulty"
@@ -446,7 +527,7 @@ const TaskDetail = () => {
                 </button>
 
                 {isEditing && (
-                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0">
+                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0" disabled={isButtonDisabled}>
                         Save Changes
                     </button>
                 )}

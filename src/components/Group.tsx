@@ -47,6 +47,10 @@ const GroupDetail = () => {
         lists: [],
     });
 
+    const [titleError, setTitleError] = useState('');
+    const [userSetError, setUserError] = useState('');
+    const isButtonDisabled = !(userSetError.length < 1 && titleError.length < 1 );
+
     const [newgroup, setNewGroup] = useState<Partial<Group>>({
         pk: 0,
         title: '',
@@ -76,6 +80,16 @@ const GroupDetail = () => {
 
     const handleInputChange = (e: any) => {
         let { name, value } = e.target;
+        if (name === 'title' && value.trim() === '' || value.length > 200) {
+            setTitleError('Validate your title');
+        } else {
+            setTitleError('');
+        }
+        if (name === 'users' && value.length < 1) {
+            setUserError('Validate your users');
+        } else {
+            setUserError('');
+        }
         if (name === 'completion_status') {
             value = e.target.checked
         }
@@ -84,6 +98,19 @@ const GroupDetail = () => {
 
     const handleNewInputChange = (e: any) => {
         let { name, value } = e.target;
+        if (name === 'title' && value.trim() === '' || value.length > 200) {
+            setTitleError('Validate your title');
+        } else {
+            setTitleError('');
+        }
+        if (name === 'users' && value.length < 1) {
+            setUserError('Validate your users');
+        } else {
+            setUserError('');
+        }
+        if (name === 'completion_status') {
+            value = e.target.checked
+        }
         if (name === 'completion_status') {
             value = e.target.checked
         }
@@ -127,7 +154,7 @@ const GroupDetail = () => {
                         </label>
                         <input
                             type="text"
-                            className="form-control"
+                            className={`form-control ${titleError ? 'is-invalid' : ''}`}
                             id="title"
                             placeholder="Enter task title"
                             name="title"
@@ -181,7 +208,7 @@ const GroupDetail = () => {
                     </button>
 
                     {isEditing && (
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" disabled={isButtonDisabled} className="btn btn-primary">
                             Save Changes
                         </button>
                     )}
@@ -200,7 +227,7 @@ const GroupDetail = () => {
                     </label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${titleError ? 'is-invalid' : ''}`}
                         id="title"
                         placeholder="Enter task title"
                         name="title"
@@ -255,7 +282,7 @@ const GroupDetail = () => {
                 </button>
 
                 {isEditing && (
-                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0">
+                    <button type="submit" disabled={isButtonDisabled} className="btn btn-outline-primary shadow-sm border-0">
                         Save Changes
                     </button>
                 )}
