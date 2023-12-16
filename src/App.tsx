@@ -12,6 +12,7 @@ import ProfileDetail from './components/Profile';
 import MyGroups from './components/MyGroups';
 import GroupDetail from './components/Group';
 import Auth from './components/Auth';
+import Register from './components/Register';
 import Navbar from './components/Navbar';
 import { useEffect, useState } from 'react';
 import { authTest } from './util/authguard';
@@ -24,7 +25,7 @@ const App = () => {
   const [data, setData] = useState(false);
   let interval: number;
   useEffect(() => {
-    interval = window.setInterval(() => setData(authTest()), 1);
+    interval = window.setInterval(() => setData(authTest()), 100);
     return () => clearInterval(interval);
   })
   return (
@@ -35,6 +36,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/mytasks" element={<MyTasks />} />
             <Route path="/task/" element={<TaskDetail />} />
             <Route path="/task/:pk" element={<TaskDetail />} />

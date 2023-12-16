@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import APIService from './APIService';
 import { useParams } from 'react-router-dom';
 import { User } from '../models/User';
-import { TaskList } from '../models/TaskList';
+import { TaskList, Task } from '../models/TaskList';
 import { Group } from '../models/GroupList';
 import { Board } from '../models/BoardList';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ import './Board.css';
 import { MultiSelect } from 'primereact/multiselect';
 
 const BoardDetail = () => {
-    const notifySuccess = (title: string) => toast.success(`Board: '${title}' was successfully updated!`, {
+    const notifySuccess = (title: string) => toast.success(`'${title}' was successfully updated!`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -23,7 +23,7 @@ const BoardDetail = () => {
         progress: undefined,
         theme: "light",
     });
-    const notifyError = (title: string) => toast.error(`Board: '${title}' failed to update.`, {
+    const notifyError = (title: string) => toast.error(`'${title}' failed to update.`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -39,13 +39,24 @@ const BoardDetail = () => {
     const [tasks, setTasks] = useState<TaskList | null>(null);
     const [board, setBoard] = useState<Board>()
     const [groups, setGroups] = useState<Group[] | null>(null)
+    const [task, setTask] = useState<Task>({
+        pk: 0,
+        title: '',
+        description: '',
+        completion_status: false,
+        due_date: '',
+        notes: '',
+        user: 0,
+        list: 0,
+        difficulty: 0,
+    });
     const [newboard, setNewBoard] = useState<Partial<Board>>({
         pk: 0,
         title: '',
         description: '',
         list_image: '',
         group_set: [],
-});
+    });
     const [file, setFile] = useState<string>();
     const { pk } = useParams();
     const apiService = new APIService();
@@ -53,7 +64,7 @@ const BoardDetail = () => {
 
     const handleClickNull = () => {
         navigate(`/task/`, { replace: true })
-      }
+    }
 
     useEffect(() => {
         apiService.getMyGroupList()
@@ -78,7 +89,20 @@ const BoardDetail = () => {
                 })
                 .catch(error => console.error(error));
         }
-    }, []);
+    }, [task]);
+
+    const handleTaskInputChange = (e: any, task: any) => {
+        let { name, value } = e.target;
+        if (name === 'completion_status') {
+            value = e.target.checked
+        }
+        apiService.updateTask({ ...task, [name]: value })
+        .then(response => {
+            notifySuccess(task.title)
+            setTask(response.data);
+        })
+        .catch(error => notifyError(error))
+    };
 
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
@@ -128,102 +152,102 @@ const BoardDetail = () => {
     if (!board) {
         return (
             <div className="container mt-5">
-            <div className="d-inline" >
-                <input
-                    type="file"
-                    className="form-control visually-hidden"
-                    id="fileInput"
-                    name="list_image"
-                    accept=".png, .jpeg, .jpg"
-                    onChange={handleInputChangeNew}
-                    disabled={!isEditing}
-                />
-                <img
-                    style={{ height: 80, width: 80, objectFit: 'cover' }}
-                    src={file || img}
-                    alt="Board Image"
-                    className="img clickable-image rounded-circle grey-on-hover"
-                    onClick={handleImageClick}
-                />
-            </div>
-            <h1 className="d-inline" style={{marginLeft: 15}}>Board Information</h1>
-            <form onSubmit={handleSubmitNew}>
-                <div className="mb-3">
-                    <label htmlFor="title" className="form-label">
-                        Title
-                    </label>
+                <div className="d-inline" >
                     <input
-                        type="text"
-                        className="form-control"
-                        id="title"
-                        placeholder="Enter board title"
-                        name="title"
-                        value={newboard?.title}
+                        type="file"
+                        className="form-control visually-hidden"
+                        id="fileInput"
+                        name="list_image"
+                        accept=".png, .jpeg, .jpg"
                         onChange={handleInputChangeNew}
                         disabled={!isEditing}
                     />
+                    <img
+                        style={{ height: 80, width: 80, objectFit: 'cover' }}
+                        src={file || img}
+                        alt="Board Image"
+                        className="img clickable-image rounded-circle grey-on-hover"
+                        onClick={handleImageClick}
+                    />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="description" className="form-label">
-                        Description
-                    </label>
-                    <textarea
-                        className="form-control"
-                        id="description"
-                        rows={3}
-                        placeholder="Enter board description"
-                        name="description"
-                        value={newboard?.description}
-                        onChange={handleInputChangeNew}
-                        disabled={!isEditing}
-                    ></textarea>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="description" className="form-label">
-                        Description
-                    </label>
-                    <textarea
-                        className="form-control"
-                        id="notes"
-                        rows={3}
-                        placeholder="Enter board notes"
-                        name="notes"
-                        value={newboard?.notes}
-                        onChange={handleInputChangeNew}
-                        disabled={!isEditing}
-                    ></textarea>
-                </div>
+                <h1 className="d-inline" style={{ marginLeft: 15 }}>Board Information</h1>
+                <form onSubmit={handleSubmitNew}>
+                    <div className="mb-3">
+                        <label htmlFor="title" className="form-label">
+                            Title
+                        </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="title"
+                            placeholder="Enter board title"
+                            name="title"
+                            value={newboard?.title}
+                            onChange={handleInputChangeNew}
+                            disabled={!isEditing}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="description" className="form-label">
+                            Description
+                        </label>
+                        <textarea
+                            className="form-control"
+                            id="description"
+                            rows={3}
+                            placeholder="Enter board description"
+                            name="description"
+                            value={newboard?.description}
+                            onChange={handleInputChangeNew}
+                            disabled={!isEditing}
+                        ></textarea>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="description" className="form-label">
+                            Description
+                        </label>
+                        <textarea
+                            className="form-control"
+                            id="notes"
+                            rows={3}
+                            placeholder="Enter board notes"
+                            name="notes"
+                            value={newboard?.notes}
+                            onChange={handleInputChangeNew}
+                            disabled={!isEditing}
+                        ></textarea>
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="assignee" className="form-label">
+                    <div className="mb-3">
+                        <label htmlFor="assignee" className="form-label">
                             Groups
                         </label>
-                    <br />
-                    <MultiSelect
-                        value={newboard?.group_set}
-                        onChange={(e) => handleInputChangeNew(e)}
-                        options={groups ? groups?.map(group => ({ title: group.title, pk: group.pk })) : []}
-                        optionLabel="title"
-                        optionValue="pk"
-                        placeholder="Select Groups"
-                        dataKey="pk"
-                        id="group_set"
-                        name="group_set"
-                        disabled={!isEditing}
-                        filter
+                        <br />
+                        <MultiSelect
+                            value={newboard?.group_set}
+                            onChange={(e) => handleInputChangeNew(e)}
+                            options={groups ? groups?.map(group => ({ title: group.title, pk: group.pk })) : []}
+                            optionLabel="title"
+                            optionValue="pk"
+                            placeholder="Select Groups"
+                            dataKey="pk"
+                            id="group_set"
+                            name="group_set"
+                            disabled={!isEditing}
+                            filter
                         />
                     </div>
 
-                <button type="button" className="btn btn-outline-secondary shadow-sm border-0" onClick={handleEditToggle}>
-                    {isEditing ? 'Cancel' : 'Edit'}
-                </button>
-
-                {isEditing && (
-                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0">
-                        Save Changes
+                    <button type="button" className="btn btn-outline-secondary shadow-sm border-0" onClick={handleEditToggle}>
+                        {isEditing ? 'Cancel' : 'Edit'}
                     </button>
-                )}
-            </form>
+
+                    {isEditing && (
+                        <button type="submit" className="btn btn-outline-primary shadow-sm border-0">
+                            Save Changes
+                        </button>
+                    )}
+                </form>
             </div>
         );
     };
@@ -261,21 +285,33 @@ const BoardDetail = () => {
 
     const renderCardContent = (task: any, index: number) => (
         <>
-            <p className="card-text">{task?.description}</p>
-            <ul className="list-group">
-                <li className="list-group-item">
-                    <strong>Completion Status:</strong> {task?.completion_status ? 'Completed' : 'Incomplete'}
-                </li>
-                <li className="list-group-item">
-                    <strong>Due Date:</strong> {task?.due_date.substring(0, 10)}
-                </li>
-                <li className="list-group-item">
-                    <strong>Notes:</strong> {task?.notes}
-                </li>
-                <li className="list-group-item">
-                    <strong>Difficulty:</strong> {task?.difficulty}
-                </li>
-            </ul>
+            <form>
+                <p className="card-text">{task?.description}</p>
+                <ul className="list-group">
+                    <li className="list-group-item">
+                        <strong>Completed?</strong>
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="completion_status"
+                            name="completion_status"
+                            checked={task?.completion_status}
+                            disabled={!isEditing}
+                            onChange={(e) => handleTaskInputChange(e, task)}
+                            style={{ marginLeft: "10px" }}
+                        />
+                    </li>
+                    <li className="list-group-item">
+                        <strong>Due Date:</strong> {task?.due_date.substring(0, 10)}
+                    </li>
+                    <li className="list-group-item">
+                        <strong>Notes:</strong> {task?.notes}
+                    </li>
+                    <li className="list-group-item">
+                        <strong>Difficulty:</strong> {task?.difficulty}
+                    </li>
+                </ul>
+            </form>
         </>
     );
 
@@ -303,7 +339,7 @@ const BoardDetail = () => {
                     onClick={handleImageClick}
                 />
             </div>
-            <h1 className="d-inline" style={{marginLeft: 15}}>Board Information</h1>
+            <h1 className="d-inline" style={{ marginLeft: 15 }}>Board Information</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">
@@ -353,8 +389,8 @@ const BoardDetail = () => {
 
                 <div className="mb-3">
                     <label htmlFor="assignee" className="form-label">
-                            Groups
-                        </label>
+                        Groups
+                    </label>
                     <br />
                     <MultiSelect
                         value={board.group_set}
@@ -368,8 +404,8 @@ const BoardDetail = () => {
                         name="group_set"
                         disabled={!isEditing}
                         filter
-                        />
-                    </div>
+                    />
+                </div>
 
                 <button type="button" className="btn btn-outline-secondary shadow-sm border-0" onClick={handleEditToggle}>
                     {isEditing ? 'Cancel' : 'Edit'}

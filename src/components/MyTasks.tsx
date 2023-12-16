@@ -2,14 +2,47 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import APIService from './APIService';
 import { User } from '../models/User';
-import { TaskList } from '../models/TaskList';
+import { TaskList, Task } from '../models/TaskList';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const MyTasks = () => {
   const [user, setData] = useState<User | null>(null);
   const [tasks, setTasks] = useState<TaskList | null>(null);
   const apiService = new APIService();
   const navigate = useNavigate()
+  const [task, setTask] = useState<Task>({
+    pk: 0,
+    title: '',
+    description: '',
+    completion_status: false,
+    due_date: '',
+    notes: '',
+    user: 0,
+    list: 0,
+    difficulty: 0,
+  });
+
+  const notifySuccess = (title: string) => toast.success(`'${title}' was successfully updated!`, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+  const notifyError = (title: string) => toast.error(`'${title}' failed to update.`, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
 
   useEffect(() => {
     apiService.getUser()
@@ -17,18 +50,32 @@ const MyTasks = () => {
         setData(response.data);
       })
       .catch(error => console.error(error));
-      apiService.getMyTasks()
+    apiService.getMyTasks()
       .then(response => {
-          setTasks(response.data);
-        })
-      .catch(error => console.error(error));  
-  }, []);
+        setTasks(response.data);
+      })
+      .catch(error => console.error(error));
+  }, [task]);
 
   const handleClick = (pk: number) => {
     if (pk) {
-    navigate(`/task/${pk}`,{ replace: true })
+      navigate(`/task/${pk}`, { replace: true })
     }
   }
+
+  const handleTaskInputChange = (e: any, task: any) => {
+    let { name, value } = e.target;
+    if (name === 'completion_status') {
+      value = e.target.checked
+    }
+    apiService.updateTask({ ...task, [name]: value })
+      .then(response => {
+        notifySuccess(task.title)
+        setTask(response.data);
+      })
+      .catch(error => notifyError(error))
+  };
+
   const handleClickNull = () => {
     navigate(`/task/`, { replace: true })
   }
@@ -38,7 +85,16 @@ const MyTasks = () => {
       <p className="card-text">{task.description}</p>
       <ul className="list-group">
         <li className="list-group-item">
-          <strong>Completion Status:</strong> {task.completion_status ? 'Completed' : 'Incomplete'}
+          <strong>Completed?</strong>
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="completion_status"
+            name="completion_status"
+            checked={task?.completion_status}
+            onChange={(e) => handleTaskInputChange(e, task)}
+            style={{ marginLeft: "10px" }}
+          />
         </li>
         <li className="list-group-item">
           <strong>Due Date:</strong> {task.due_date.substring(0, 10)}

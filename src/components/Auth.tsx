@@ -32,7 +32,7 @@ const Auth = () => {
                   </div>
                   <div className="card-body">
                     <form onSubmit={handleSubmit}>
-                      <div className="form-group">
+                      <div className="form-group mt-2">
                         <label htmlFor="username">Username:</label>
                         <input
                           type="text"
@@ -44,7 +44,7 @@ const Auth = () => {
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      <div className="form-group mt-2">
                         <label htmlFor="password">Password:</label>
                         <input
                           type="password"
@@ -56,10 +56,21 @@ const Auth = () => {
                           required
                         />
                       </div>
-                      <button type="submit" className="btn btn-primary btn-block mt-2">
+                      <button type="submit" className="btn border-0 shadow-sm btn-outline-primary btn-block my-2">
                         Login
                       </button>
                     </form>
+                    <div className="border-top my-2">
+                    <div>
+                      <div className="form-group mt-2">
+                        <label htmlFor="username">Don't have an account?</label>
+                        <br />
+                        <button className="btn border-0 shadow-sm btn-outline-success btn-block my-2" onClick={() => navigate('/register')}>
+                        Register
+                      </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

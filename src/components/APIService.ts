@@ -1,3 +1,4 @@
+import { Task } from '../models/TaskList';
 import axiosInstance from '../util/myinterceptor'
 // Change the API_URL to the correct location of the backend API before deploying the app
 const API_URL = 'https://dannyjll.pythonanywhere.com'
@@ -18,7 +19,7 @@ export class APIService {
    }
    updateTask(task: any) {
       const url = `${API_URL}/api/tasks/${task.pk}`;
-      return axiosInstance.put(url, task);
+      return axiosInstance.put<Task>(url, task);
    }
    deleteTask(task_pk: any) {
       const url = `${API_URL}/api/tasks/${task_pk}`;
