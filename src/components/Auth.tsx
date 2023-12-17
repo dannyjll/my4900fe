@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import APIService from './APIService'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 const Auth = () => {
   const apiService = new APIService();
@@ -9,17 +10,41 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
 
+  const notifySuccess = (user: any) => toast.success(`Logged in as '${user}'!`, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+  const notifyError = (user: any) => toast.error(`Failed to log in as '${user}'.\nPlease validate your credentials.`, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     apiService.authenticateLogin({
       "username": username,
       "password": password
     }).then(response => {
-      localStorage.setItem("access", response.data.access)
-      localStorage.setItem("refresh", response.data.refresh)
-      localStorage.setItem('isAuthenticated', 'true')
+      localStorage.clear()
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+      localStorage.setItem('isAuthenticated', 'true');
+      notifySuccess(username);
       navigate("/", {replace: true})
-    }).catch(error => console.error(error))
+    }).catch(error => {
+      notifyError(username);})
   };
 
   return (
@@ -63,7 +88,7 @@ const Auth = () => {
                     <div className="border-top my-2">
                     <div>
                       <div className="form-group mt-2">
-                        <label htmlFor="username">Don't have an account?</label>
+                        <label htmlFor="register">Don't have an account?</label>
                         <br />
                         <button className="btn border-0 shadow-sm btn-outline-success btn-block my-2" onClick={() => navigate('/register')}>
                         Register
