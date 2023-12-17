@@ -66,6 +66,9 @@ const GroupDetail = () => {
             ).catch(response =>
                 console.error(response.error))
         }
+    else {
+        setTitleError('Validate your title');
+    }
         apiService.getAllUsers().then(response => {
             setUsers(response.data)
         }
@@ -81,17 +84,15 @@ const GroupDetail = () => {
     const handleInputChange = (e: any) => {
         let { name, value } = e.target;
 
-        if (name === 'title' && (value.trim() === '' || value.length > 200)) {
-            setTitleError('Validate your title');
-        } else {
-            setTitleError('');
+        if (name === 'title') {
+            if (value.trim() === '' || value.length > 200) {
+                setTitleError('Validate your title (maximum 200 characters)');
+            } else {
+                setTitleError('');
+            }
         }
+        
 
-        if (name === 'users' && value.length < 1) {
-            setUserError('Validate your users');
-        } else {
-            setUserError('');
-        }
         if (name === 'completion_status') {
             value = e.target.checked
         }
@@ -106,12 +107,6 @@ const GroupDetail = () => {
             setTitleError('Validate your title');
         } else {
             setTitleError('');
-        }
-
-        if (name === 'users' && value.length < 1) {
-            setUserError('Validate your users');
-        } else {
-            setUserError('');
         }
 
         if (name === 'completion_status') {
@@ -179,6 +174,7 @@ const GroupDetail = () => {
                         optionLabel="username"
                         optionValue="pk"
                         placeholder="Select Users"
+                        className={`form-control-sm`}
                         dataKey="pk"
                         id="users"
                         name="users"
@@ -199,6 +195,7 @@ const GroupDetail = () => {
                         optionLabel="title"
                         optionValue="pk"
                         placeholder="Select Boards"
+                        className={`form-control-sm`}
                         dataKey="pk"
                         id="lists"
                         name="lists"
@@ -253,6 +250,7 @@ const GroupDetail = () => {
                         optionLabel="username"
                         optionValue="pk"
                         placeholder="Select Users"
+                        className={`form-control-sm`}
                         dataKey="pk"
                         id="users"
                         name="users"
@@ -273,6 +271,7 @@ const GroupDetail = () => {
                         optionLabel="title"
                         optionValue="pk"
                         placeholder="Select Boards"
+                        className={`form-control-sm`}
                         dataKey="pk"
                         id="lists"
                         name="lists"

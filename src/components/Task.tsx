@@ -61,33 +61,48 @@ const TaskDetail = () => {
         list: 0,
         difficulty: 0,
     });
-    
+
     const [titleError, setTitleError] = useState('');
-    const [assigneeError, setAssigneeError] = useState('');
     const [dateError, setDateError] = useState('');
-    const [boardError, setBoardError] = useState('');
     const [notesError, setNotesError] = useState('');
     const [descriptionError, setDescriptionError] = useState('');
     const [difficultyError, setDifficultyError] = useState('');
-    const isButtonDisabled = !(assigneeError.length < 1 && titleError.length < 1 
-        && dateError.length < 1 && boardError.length < 1 
-        && notesError.length < 1 && descriptionError.length < 1 && difficultyError.length < 1);
+    const isButtonDisabled = !(titleError.length < 1
+        && dateError.length < 1 && notesError.length < 1 && 
+        descriptionError.length < 1 && difficultyError.length < 1);
 
     const handleDueDateChange = (date: any) => {
+        if (date.length < 1) {
+            setDateError('Validate your due date');
+        } else {
+            setDateError('');
+        }
         setTask({ ...task, due_date: date.toISOString() });
     };
 
     const handleNewDueDateChange = (date: any) => {
+        if (date.length < 1) {
+            setDateError('Validate your due date');
+        } else {
+            setDateError('');
+        }
         setNewTask({ ...newtask, due_date: date.toISOString() });
     };
 
     useEffect(() => {
         if (pk) {
-        apiService.getTask(pk).then(response => {
-            setTask(response.data)
+            apiService.getTask(pk).then(response => {
+                setTask(response.data)
+            }
+            ).catch(response =>
+                console.error(response.error))
         }
-        ).catch(response =>
-            console.error(response.error))
+        else {
+            setTitleError('Validate your title');
+            setDescriptionError('Validate your description')
+            setNotesError('Validate your notes')
+            setDifficultyError('Validate your difficulty');
+            setDateError('Validate your due date')
         }
         apiService.getAllUsers().then(response => {
             setUsers(response.data)
@@ -99,57 +114,49 @@ const TaskDetail = () => {
         }
         ).catch(response =>
             console.error(response.error))
-        setTitleError('');
+            ;
     }, []);
 
     const handleInputChange = (e: any) => {
+        
         let { name, value } = e.target;
 
-        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
-            setTitleError('Validate your title');
-        } else {
-            setTitleError('');
+        if (name === 'title') {
+            if (value.trim() === '' || value.length > 100) {
+                setTitleError('Validate your title');
+            } else {
+                setTitleError('');
+            }
         }
 
-        if (name === 'description' && ((value.trim() === '' || value.length > 1000))) {
-            setDescriptionError('Validate your description');
-        } else {
-            setDescriptionError('');
-        }
-
-        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
-            setNotesError('Validate your notes');
-        } else {
-            setNotesError('');
-        }
-
-        if (name === 'user' && (value.length < 1)) {
-            setAssigneeError('Validate your assignee');
-        } else {
-            setAssigneeError('');
-        }
-
-        if (name === 'board' && (value.length < 1)) {
-            setBoardError('Validate your board');
-        } else {
-            setBoardError('');
-        }
-
-        if (name === 'due_date' && (value.length < 1)) {
-            setDateError('Validate your due date');
-        } else {
-            setDateError('');
-        }
-
-        if (name === 'difficulty' && (value.length < 1 || value < 1 || value > 10 )) {
-            setDifficultyError('Validate your difficulty');
-        } else {
-            setDifficultyError('');
+        if (name === 'description') {
+            if (value.trim() === '' || value.length > 1000) {
+                setDescriptionError('Validate your description');
+            } else {
+                setDescriptionError('');
+            }
         }
         
-        if (name === 'completion_status') {
-            value = e.target.checked
+        if (name === 'notes') {
+            if (value.trim() === '' || value.length > 1000) {
+                setNotesError('Validate your notes');
+            } else {
+                setNotesError('');
+            }
         }
+        
+        if (name === 'difficulty') {
+            if (value.length < 1 || value < 1 || value > 10) {
+                setDifficultyError('Validate your difficulty');
+            } else {
+                setDifficultyError('');
+            }
+        }
+
+        if (name === 'completion_status') {
+            value = e.target.checked;
+        }
+        
 
         setTask({ ...task, [name]: value });
     };
@@ -157,51 +164,43 @@ const TaskDetail = () => {
     const handleNewInputChange = (e: any) => {
         let { name, value } = e.target;
 
-        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
-            setTitleError('Validate your title');
-        } else {
-            setTitleError('');
+        if (name === 'title') {
+            if (value.trim() === '' || value.length > 100) {
+                setTitleError('Validate your title');
+            } else {
+                setTitleError('');
+            }
         }
 
-        if (name === 'description' && (value.trim() === '' || value.length > 1000)) {
-            setDescriptionError('Validate your description');
-        } else {
-            setDescriptionError('');
+        if (name === 'description') {
+            if (value.trim() === '' || value.length > 1000) {
+                setDescriptionError('Validate your description');
+            } else {
+                setDescriptionError('');
+            }
         }
-
-        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
-            setNotesError('Validate your notes');
-        } else {
-            setNotesError('');
+        
+        if (name === 'notes') {
+            if (value.trim() === '' || value.length > 1000) {
+                setNotesError('Validate your notes');
+            } else {
+                setNotesError('');
+            }
         }
-
-        if (name === 'user' && (value.length < 1)) {
-            setAssigneeError('Validate your assignee');
-        } else {
-            setAssigneeError('');
+        
+        if (name === 'difficulty') {
+            if (value.length < 1 || value < 1 || value > 10) {
+                setDifficultyError('Validate your difficulty');
+            } else {
+                setDifficultyError('');
+            }
         }
-
-        if (name === 'board' && (value.length < 1)) {
-            setBoardError('Validate your board');
-        } else {
-            setBoardError('');
-        }
-
-        if (name === 'due_date' && (value.length < 1)) {
-            setDateError('Validate your due date');
-        } else {
-            setDateError('');
-        }
-
-        if (name === 'difficulty' && (value.length < 1 || value < 1 || value > 10 )) {
-            setDifficultyError('Validate your difficulty');
-        } else {
-            setDifficultyError('');
-        }
-
+        
         if (name === 'completion_status') {
-            value = e.target.checked
+            value = e.target.checked;
         }
+        
+        
 
         setNewTask({ ...newtask, [name]: value });
     };
@@ -338,53 +337,55 @@ const TaskDetail = () => {
                     </div>
 
                     <div className="mb-3">
-                    <label htmlFor="assignee" className="form-label">
+                        <label htmlFor="assignee" className="form-label">
                             Assignee
                         </label>
-                    <br />
-                    <Dropdown
-                        value={newtask.user}
-                        onChange={(e) => handleNewInputChange(e)}
-                        options={users ? users?.map(user => ({ username: user.username, pk: user.pk })) : []}
-                        optionLabel="username"
-                        optionValue="pk"
-                        placeholder="Select a user"
-                        dataKey="pk"
-                        id="user"
-                        name="user"
-                        disabled={!isEditing}
-                        filter
+                        <br />
+                        <Dropdown
+                            value={newtask.user}
+                            onChange={(e) => handleNewInputChange(e)}
+                            options={users ? users?.map(user => ({ username: user.username, pk: user.pk })) : []}
+                            optionLabel="username"
+                            optionValue="pk"
+                            placeholder="Select a user"
+                            className={`form-select-sm`}
+                            dataKey="pk"
+                            id="user"
+                            name="user"
+                            disabled={!isEditing}
+                            filter
                         />
                     </div>
 
                     <div className="mb-3">
-                    <label htmlFor="board" className="form-label">
+                        <label htmlFor="board" className="form-label">
                             Board
                         </label>
-                    <br />
-                    <Dropdown
-                        value={newtask.list}
-                        onChange={(e) => handleNewInputChange(e)}
-                        options={boards ? boards?.map(list => ({ title: list.title, pk: list.pk })) : []}
-                        optionLabel="title"
-                        optionValue="pk"
-                        placeholder="Select a board"
-                        dataKey="pk"
-                        id="list"
-                        name="list"
-                        disabled={!isEditing}
-                        filter
+                        <br />
+                        <Dropdown
+                            value={newtask.list}
+                            onChange={(e) => handleNewInputChange(e)}
+                            options={boards ? boards?.map(list => ({ title: list.title, pk: list.pk })) : []}
+                            optionLabel="title"
+                            optionValue="pk"
+                            placeholder="Select a board"
+                            className={`form-select-sm`}
+                            dataKey="pk"
+                            id="list"
+                            name="list"
+                            disabled={!isEditing}
+                            filter
                         />
                     </div>
 
                     <button type="button" className="btn btn-outline-secondary shadow-sm border-0" onClick={handleEditToggle}>
-                    {isEditing ? 'Cancel' : 'Edit'}
-                </button>
-
-                {isEditing && (
-                    <button type="submit" className="btn btn-outline-primary shadow-sm border-0" disabled={isButtonDisabled}>
-                        Save Changes
+                        {isEditing ? 'Cancel' : 'Edit'}
                     </button>
+
+                    {isEditing && (
+                        <button type="submit" className="btn btn-outline-primary shadow-sm border-0" disabled={isButtonDisabled}>
+                            Save Changes
+                        </button>
                     )}
                 </form>
             </div>
@@ -502,8 +503,8 @@ const TaskDetail = () => {
 
                 <div className="mb-3">
                     <label htmlFor="assignee" className="form-label">
-                            Assignee
-                        </label>
+                        Assignee
+                    </label>
                     <br />
                     <Dropdown
                         value={task.user}
@@ -516,20 +517,22 @@ const TaskDetail = () => {
                         id="user"
                         name="user"
                         disabled={!isEditing}
+                        className={`form-select-sm`}
                         filter
-                        />
-                    </div>
+                    />
+                </div>
 
-                    <div className="mb-3">
+                <div className="mb-3">
                     <label htmlFor="board" className="form-label">
-                            Board
-                        </label>
+                        Board
+                    </label>
                     <br />
                     <Dropdown
                         value={task.list}
                         onChange={(e) => handleInputChange(e)}
                         options={boards ? boards?.map(list => ({ title: list.title, pk: list.pk })) : []}
                         optionLabel="title"
+                        className={`form-select-sm`}
                         optionValue="pk"
                         placeholder="Select a board"
                         dataKey="pk"
@@ -537,8 +540,8 @@ const TaskDetail = () => {
                         name="list"
                         disabled={!isEditing}
                         filter
-                        />
-                    </div>
+                    />
+                </div>
 
 
                 <button type="button" className="btn btn-outline-secondary shadow-sm border-0" onClick={handleEditToggle}>

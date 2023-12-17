@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import APIService from './APIService'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
@@ -20,40 +20,60 @@ const Register = () => {
   const [firstnameError, setFirstNameError] = useState('');
   const [lastnameError, setLastNameError] = useState('');
 
-  const isButtonDisabled = !(usernameError.length < 1 && passwordError.length < 1 && emailError.length < 1 && firstnameError.length < 1 && lastnameError.length < 1 );
+  const isButtonDisabled = !(usernameError.length < 1 && passwordError.length < 1 && emailError.length < 1 && firstnameError.length < 1 && lastnameError.length < 1);
+
+  useEffect(() => {
+    setUsernameError('Validate your username');
+    setPasswordError('Validate your password');
+    setEmailError('Validate your email');
+    setFirstNameError('Validate your firstname');
+    setLastNameError('Validate your lastname');
+  }
+  )
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
 
-    if (name === 'username' && (value.trim() === '' || value.length > 150)) {
-      setUsernameError('Validate your username');
-    } else {
-      setUsernameError('');
+    if (name === 'username') {
+      if (value.trim() === '' || value.length > 150) {
+        setUsernameError('Validate your username');
+      } else {
+        setUsernameError('');
+      }
     }
 
-    if (name === 'password' && (value.trim() === '' || value.length < 6)) {
-      setPasswordError('Validate your password');
-    } else {
-      setPasswordError('');
+    if (name === 'password') {
+      if (value.trim() === '' || value.length < 6) {
+        setPasswordError('Validate your password');
+      } else {
+        setPasswordError('');
+      }
     }
 
-    if (name === 'email' && (value.trim() === '' || !value.includes('@') || !value.includes('.com'))) {
-      setEmailError('Validate your email');
-    } else {
-      setEmailError('');
+    if (name === 'email') {
+      if (value.trim() === '' || !value.includes('@') || !value.includes('.com')) {
+        setEmailError('Validate your email');
+      } else {
+        setEmailError('');
+      }
     }
 
-    if (name === 'firstname' && (value.trim() === '' || value.length > 150)) {
-      setFirstNameError('Validate your firstname');
-    } else {
-      setFirstNameError('');
+    if (name === 'firstname') {
+      if (value.trim() === '' || value.length > 150) {
+        setFirstNameError('Validate your firstname');
+      } else {
+        setFirstNameError('');
+      }
     }
 
-    if (name === 'lastname' && (value.trim() === '' || value.length > 150)) {
-      setLastNameError('Validate your lastname');
-    } else {
-      setLastNameError('');
+    if (name === 'lastname') {
+      if (value.trim() === '' || value.length > 150) {
+        setLastNameError('Validate your lastname');
+      } else {
+        setLastNameError('');
+      }
     }
+
 
   };
 
@@ -117,7 +137,7 @@ const Register = () => {
                     name="username"
                     placeholder="Enter your username"
                     value={username}
-                    onChange={(e) => {setUsername(e.target.value); handleInputChange(e)}}
+                    onChange={(e) => { setUsername(e.target.value); handleInputChange(e) }}
                     required
                   />
                 </div>
@@ -130,7 +150,7 @@ const Register = () => {
                     name="password"
                     placeholder="Enter your password"
                     value={password}
-                    onChange={(e) => {setPassword(e.target.value); handleInputChange(e)}}
+                    onChange={(e) => { setPassword(e.target.value); handleInputChange(e) }}
                     required
                   />
                 </div>
@@ -143,7 +163,7 @@ const Register = () => {
                     id="password2"
                     placeholder="Enter your password again"
                     value={password2}
-                    onChange={(e) => {setPassword2(e.target.value); handleInputChange(e)}}
+                    onChange={(e) => { setPassword2(e.target.value); handleInputChange(e) }}
                     required
                   />
                 </div>
@@ -156,7 +176,7 @@ const Register = () => {
                     name="email"
                     placeholder="Enter your email address"
                     value={email}
-                    onChange={(e) => {setEmail(e.target.value); handleInputChange(e)}}
+                    onChange={(e) => { setEmail(e.target.value); handleInputChange(e) }}
                     required
                   />
                 </div>
@@ -169,7 +189,7 @@ const Register = () => {
                     name="firstname"
                     placeholder="Enter your first name"
                     value={firstname}
-                    onChange={(e) => {setFirstName(e.target.value); handleInputChange(e)}}
+                    onChange={(e) => { setFirstName(e.target.value); handleInputChange(e) }}
                     required
                   />
                 </div>
@@ -182,11 +202,11 @@ const Register = () => {
                     name="lastname"
                     placeholder="Enter your last name"
                     value={lastname}
-                    onChange={(e) => {setLastName(e.target.value); handleInputChange(e)}}
+                    onChange={(e) => { setLastName(e.target.value); handleInputChange(e) }}
                     required
                   />
                 </div>
-                <button type="submit" disabled={isButtonDisabled} className="btn btn-primary btn-block mt-2">
+                <button type="submit" disabled={isButtonDisabled} className="btn btn-outline-primary border-0 shadow-sm btn-block mt-2">
                   Register
                 </button>
               </form>

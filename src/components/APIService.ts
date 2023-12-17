@@ -156,7 +156,7 @@ export class APIService {
       };
    }
    updateProfile(profile: any, image: any) {
-      const url = `${API_URL}/api/lists/${profile.pk}`;
+      const url = `${API_URL}/api/profiles/${profile.pk}`;
       const imagetype = typeof(image)
       const fd = new FormData();
       if (image != null) {
@@ -213,6 +213,10 @@ export class APIService {
    }
    getUser() {
       const url = `${API_URL}/api/getuser/`;
+      return axiosInstance.get(url);
+   }
+   getUserFromProfilePK(profile_pk: any) {
+      const url = `${API_URL}/api/getuserfromprofilepk/${profile_pk}`;
       return axiosInstance.get(url);
    }
    getAllUsers() {

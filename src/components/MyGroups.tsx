@@ -4,6 +4,7 @@ import APIService from './APIService';
 import { User } from '../models/User';
 import { Link, useNavigate } from 'react-router-dom';
 import { GroupList, Group } from '../models/GroupList';
+import { ProfileList, Profile } from '../models/ProfileList';
 import { Board } from '../models/BoardList';
 
 const MyGroups = () => {
@@ -19,6 +20,7 @@ const MyGroups = () => {
 
   const [userdata, setData] = useState<User | null>(null);
   const [groups, setGroups] = useState<Group[] | null>(null);
+  const [profiles, setProfiles] = useState<Profile[] | null>(null);
   const [groupDetails, setGroupDetails] = useState<Group[] | null>(null);
   const apiService = new APIService();
   const navigate = useNavigate()

@@ -16,7 +16,6 @@ const BoardDetail = () => {
     const [titleError, setTitleError] = useState('');
     const [descriptionError, setDescriptionError] = useState('');
     const [notesError, setNotesError] = useState('');
-    const [groupSetError, setGroupError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [user, setData] = useState<User | null>(null);
     const [tasks, setTasks] = useState<TaskList | null>(null);
@@ -66,7 +65,7 @@ const BoardDetail = () => {
         theme: "light",
     });
 
-    const isButtonDisabled = !(groupSetError.length < 1 && titleError.length < 1 &&  descriptionError.length < 1 && notesError.length < 1);
+    const isButtonDisabled = !(titleError.length < 1 &&  descriptionError.length < 1 && notesError.length < 1);
 
 
     const handleClickNull = () => {
@@ -96,6 +95,11 @@ const BoardDetail = () => {
                 })
                 .catch(error => console.error(error));
         }
+        else {
+            setTitleError('Validate your title');
+            setDescriptionError('Validate your description')
+            setNotesError('Validate your notes')
+        }
     }, [task]);
 
     const handleTaskInputChange = (e: any, task: any) => {
@@ -121,29 +125,30 @@ const BoardDetail = () => {
     const handleInputChangeNew = (e: any) => {
         const { name, value } = e.target;
         
-        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
-            setTitleError('Validate your title');
-        } else {
-            setTitleError('');
+        if (name === 'title') {
+            if (value.trim() === '' || value.length > 100) {
+                setTitleError('Validate your title');
+            } else {
+                setTitleError('');
+            }
         }
-
-        if (name === 'description' && (value.trim() === '' || value.length > 1000)) {
-            setDescriptionError('Validate your description');
-        } else {
-            setDescriptionError('');
+        
+        if (name === 'description') {
+            if (value.trim() === '' || value.length > 1000) {
+                setDescriptionError('Validate your description');
+            } else {
+                setDescriptionError('');
+            }
         }
-
-        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
-            setNotesError('Validate your notes');
-        } else {
-            setNotesError('');
+        
+        if (name === 'notes') {
+            if (value.trim() === '' || value.length > 1000) {
+                setNotesError('Validate your notes');
+            } else {
+                setNotesError('');
+            }
         }
-
-        if (name === 'group_set' && value.length < 1) {
-            setGroupError('Validate your group set');
-        } else {
-            setGroupError('');
-        }
+        
 
         if (name === 'list_image' && e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
@@ -256,7 +261,7 @@ const BoardDetail = () => {
                         </label>
                         <br />
                         <MultiSelect
-                            className={`${groupSetError ? 'is-invalid' : ''}`}
+                            className={`form-control-sm`}
                             value={newboard?.group_set}
                             onChange={(e) => handleInputChangeNew(e)}
                             options={groups ? groups?.map(group => ({ title: group.title, pk: group.pk })) : []}
@@ -288,30 +293,31 @@ const BoardDetail = () => {
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
 
-        if (name === 'title' && (value.trim() === '' || value.length > 100)) {
-            setTitleError('Validate your title');
-        } else {
-            setTitleError('');
-        }
-
-        if (name === 'description' && (value.trim() === '' || value.length > 1000)) {
-            setDescriptionError('Validate your description');
-        } else {
-            setDescriptionError('');
-        }
-
-        if (name === 'notes' && (value.trim() === '' || value.length > 1000)) {
-            setNotesError('Validate your notes');
-        } else {
-            setNotesError('');
-        }
-
-        if (name === 'group_set' && value.length < 1) {
-            setGroupError('Validate your group set');
-        } else {
-            setGroupError('');
+        if (name === 'title') {
+            if (value.trim() === '' || value.length > 100) {
+                setTitleError('Validate your title');
+            } else {
+                setTitleError('');
+            }
         }
         
+        if (name === 'description') {
+            if (value.trim() === '' || value.length > 1000) {
+                setDescriptionError('Validate your description');
+            } else {
+                setDescriptionError('');
+            }
+        }
+        
+        if (name === 'notes') {
+            if (value.trim() === '' || value.length > 1000) {
+                setNotesError('Validate your notes');
+            } else {
+                setNotesError('');
+            }
+        }
+        
+
         if (name === 'list_image' && e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             setFile(URL.createObjectURL(selectedFile));
@@ -452,7 +458,7 @@ const BoardDetail = () => {
                     </label>
                     <br />
                     <MultiSelect
-                        className={`${groupSetError ? 'is-invalid' : ''}`}
+                        className={`form-control-sm`}
                         value={board.group_set}
                         onChange={(e) => handleInputChange(e)}
                         options={groups ? groups?.map(group => ({ title: group.title, pk: group.pk })) : []}
