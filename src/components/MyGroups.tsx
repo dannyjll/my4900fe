@@ -71,7 +71,9 @@ const MyGroups = () => {
   }
   const handleUserClick = (pk: number) => {
     if (pk) {
-      navigate(`/profile/${pk}`, { replace: true })
+      apiService.getProfileFromUserPK(pk).then(response => 
+        navigate(`/profile/${response.data.data.pk}`, { replace: true })
+        )
     }
   }
   

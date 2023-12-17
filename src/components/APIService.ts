@@ -219,6 +219,10 @@ export class APIService {
       const url = `${API_URL}/api/getuserfromprofilepk/${profile_pk}`;
       return axiosInstance.get(url);
    }
+   getProfileFromUserPK(user_pk: any) {
+      const url = `${API_URL}/api/getprofilefromuser/${user_pk}`;
+      return axiosInstance.get(url);
+   }
    getAllUsers() {
       const url = `${API_URL}/api/getallusers/`;
       return axiosInstance.get(url);

@@ -240,8 +240,8 @@ const BoardDetail = () => {
                         ></textarea>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="description" className="form-label">
-                            Description
+                        <label htmlFor="notes" className="form-label">
+                            Notes
                         </label>
                         <textarea
                             className={`form-control ${notesError ? 'is-invalid' : ''}`}

@@ -197,6 +197,7 @@ const ProfileDetail = () => {
                     )}
                   </form>
                 </div>
+                <div></div>
               </div>
             </div>
           </div>
