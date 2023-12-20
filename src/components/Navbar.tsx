@@ -18,7 +18,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={`navbar navbar-expand-lg navbar-dark bg-dark p-3 fixed-top`}>
+        <nav style={{backgroundColor: '#FFF39A'}} className={`navbar navbar-expand-lg navbar-light p-3 fixed-top`}>
             <img className="img-thumbnail img-fluid mx-auto d-block" src={img} style={{ width: 40 }} alt="HoneyDo Logo" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded={!isNavCollapsed ? true : false} aria-label="Toggle navigation" onClick={handleNavCollapse}/>
             <div className={`navbar-collapse ${isNavCollapsed ? 'collapse justify-content-end' : 'justify-content-end'} `} id="navbarNavDropdown" style={{ transition: 'height 0.5s ease' }} >
                 <ul className={`navbar-nav ${isNavCollapsed ? '' : 'text-center'}`}>
