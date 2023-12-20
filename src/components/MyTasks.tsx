@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const MyTasks = () => {
+  const [search, setSearch] = useState<string>('');
   const [user, setData] = useState<User | null>(null);
   const [tasks, setTasks] = useState<TaskList | null>(null);
   const apiService = new APIService();
@@ -76,6 +77,15 @@ const MyTasks = () => {
       .catch(error => notifyError(error))
   };
 
+  const handleSearch = (e: any) => {
+    let {name, value} = e.target
+    if (name === 'search') {
+      setSearch(value.toLowerCase())
+    }
+  } 
+
+  
+
   const handleClickNull = () => {
     navigate(`/task/`, { replace: true })
   }
@@ -113,19 +123,44 @@ const MyTasks = () => {
     <div className="container mt-5">
       <h1 className="mb-4">My Tasks</h1>
       <div className="row">
+        <div className="input-group mb-3">
+          <input type="text" className="form-control" placeholder="Search for a task" aria-label="Task" name="search" onChange={handleSearch} autoComplete={'off'} />
+        </div>
         {Array.isArray(tasks?.data) && (tasks?.data?.length || 0) > 0 ? (
-          tasks?.data.map((task, index) => (
-            <div key={task.pk} className="col-lg-4 col-md-6 col-sm-12 mb-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title" onClick={() => handleClick(task.pk)}>{task.title}</h5>
-                  <div>
-                    {renderCardContent(task, index)}
+          <>
+            <h3>Incomplete Tasks</h3>
+            {tasks?.data
+              .filter(task => !task.completion_status && task.title.toLowerCase().includes(search))
+              .map((task, index) => (
+                <div key={task.pk} className="col-lg-4 col-md-6 col-sm-12 mb-4">
+                  <div className="card h-100 border-0 shadow-sm">
+                    <div className="card-body">
+                      <h5 className="card-title" onClick={() => handleClick(task.pk)}>{task.title}</h5>
+                      <div>
+                        {renderCardContent(task, index)}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ))
+              ))
+            }
+            <h3>Complete Tasks</h3>
+            {tasks?.data
+              .filter(task => task.completion_status && task.title.toLowerCase().includes(search))
+              .map((task, index) => (
+                <div key={task.pk} className="col-lg-4 col-md-6 col-sm-12 mb-4">
+                  <div className="card h-100 border-0 shadow-sm">
+                    <div className="card-body">
+                      <h5 className="card-title" onClick={() => handleClick(task.pk)}>{task.title}</h5>
+                      <div>
+                        {renderCardContent(task, index)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </>
         ) : (
           <div>
             <p>No tasks available</p>
@@ -135,6 +170,6 @@ const MyTasks = () => {
       <button type="button" className="btn btn-outline-success shadow-sm border-0" onClick={() => handleClickNull()}>Add Task</button>
     </div>
   );
-};
+}
 
 export default MyTasks

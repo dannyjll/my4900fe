@@ -380,8 +380,8 @@ const BoardDetail = () => {
         </>
     );
 
-    const completedTasks = tasks?.data.filter(task => task.completion_status);
-    const incompleteTasks = tasks?.data.filter(task => !task.completion_status);
+    const completedTasks = tasks?.data?.filter(task => task.completion_status);
+    const incompleteTasks = tasks?.data?.filter(task => !task.completion_status);
 
 
     return (

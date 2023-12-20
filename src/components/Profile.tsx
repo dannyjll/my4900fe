@@ -2,9 +2,8 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import APIService from './APIService';
 import { User } from '../models/User';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Profile } from '../models/ProfileList';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const ProfileDetail = () => {
@@ -23,7 +22,6 @@ const ProfileDetail = () => {
     image: '',
   });
   const isButtonDisabled = !(bioError.length < 1);
-  const navigate = useNavigate()
 
   const notifySuccess = (user: any) => toast.success(`'${user}' was successfully updated!`, {
     position: "top-center",
@@ -145,7 +143,7 @@ const ProfileDetail = () => {
                     <img
                       style={{ height: 250, width: 250, objectFit: 'cover' }}
                       src={file || profile?.image}
-                      alt="Profile Image"
+                      alt="Profile"
                       className="img clickable-image img-responsive rounded-circle grey-on-hover"
                       onClick={handleImageClick}
                     />
@@ -218,8 +216,8 @@ const ProfileDetail = () => {
                   <img
                     style={{ height: 300, width: 300, objectFit: 'cover' }}
                     src={profile?.image}
-                    alt="Profile Image"
-                    className="img clickable-image rounded-circle grey-on-hover"
+                    alt="Profile"
+                    className="img rounded-circle"
                   />
                 </div>
               </div>

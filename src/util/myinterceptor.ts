@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const axiosInstance = axios.create();
 
@@ -7,7 +6,7 @@ axiosInstance.interceptors.response.use(response => {
   return response;
 }, error => {
   if (error.response.status === 401) {
-    if (localStorage.getItem('isAuthenticated') == "true" || !(window.location.pathname == '/auth')) {
+    if (localStorage.getItem('isAuthenticated') === "true" || !(window.location.pathname === '/auth')) {
     window.location.assign('/auth')
    }
     return Promise.reject(error);

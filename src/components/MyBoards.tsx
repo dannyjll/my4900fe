@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect } from 'react';
 import APIService from './APIService';
 import { User } from '../models/User';
-import { Board, BoardList } from '../models/BoardList';
-import { Link, useNavigate } from 'react-router-dom';
+import { BoardList } from '../models/BoardList';
+import { useNavigate } from 'react-router-dom';
 
 const MyBoards = () => {
-  const [userdata, setData] = useState<User | null>(null);
+  const [userdata, setData] = useState<User | null>(null); 
   const [boards, setBoards] = useState<BoardList | null>(null);
   const apiService = new APIService();
   const navigate = useNavigate()
@@ -48,7 +48,7 @@ const MyBoards = () => {
                       <img
                         src={board.list_image}
                         className="card-image rounded-circle d-inline"
-                        alt="List Image"
+                        alt="List"
                         style={{ height: 50, width: 50, objectFit: 'cover', }}
                       />
                       </div>
@@ -65,10 +65,6 @@ const MyBoards = () => {
                     <h4 className="card-title ml-3 mb-0" onClick={() => handleClick(board.pk)}>{board.title}</h4>
                   </div>
                   <p className="card-description mt-2">{board.description}</p>
-                  <p className="card-info">
-                    <strong>PK:</strong> {board.pk} | <strong>Group Set:</strong>{' '}
-                    {board.group_set.join(', ')}
-                  </p>
                 </div>
               </div>
             </div>
