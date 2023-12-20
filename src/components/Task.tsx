@@ -93,6 +93,7 @@ const TaskDetail = () => {
         if (pk) {
             apiService.getTask(pk).then(response => {
                 setTask(response.data)
+                document.title = response.data.title
             }
             ).catch(response =>
                 console.error(response.error))

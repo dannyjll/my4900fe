@@ -53,6 +53,7 @@ const MyGroups = () => {
         console.error(error);
       }
     };
+    document.title = 'My Groups'
     fetchData();
   }, []);
 

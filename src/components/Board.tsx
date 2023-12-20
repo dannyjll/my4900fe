@@ -72,7 +72,7 @@ const BoardDetail = () => {
         navigate(`/task/`, { replace: true })
     }
 
-    useEffect(() => {
+    useEffect(() => { 
         apiService.getMyGroupList()
             .then(response => {
                 setGroups(response.data.data)
@@ -92,6 +92,7 @@ const BoardDetail = () => {
             apiService.getList(pk)
                 .then(response => {
                     setBoard(response.data);
+                    document.title = response.data?.title
                 })
                 .catch(error => console.error(error));
         }

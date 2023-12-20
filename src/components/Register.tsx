@@ -28,6 +28,7 @@ const Register = () => {
     setEmailError('Validate your email');
     setFirstNameError('Validate your firstname');
     setLastNameError('Validate your lastname');
+    document.title = 'Register'
   }
   )
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import APIService from './APIService'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
@@ -9,6 +9,10 @@ const Auth = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = 'Login'
+  }, []);
 
   const notifySuccess = (user: any) => toast.success(`Logged in as '${user}'!`, {
     position: "top-center",

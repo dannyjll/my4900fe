@@ -9,6 +9,7 @@ const Home = () => {
   const apiService = new APIService();
 
   useEffect(() => {
+    document.title = 'HoneyDo Home'
     apiService.getUser()
       .then(response => {
         setData(response.data);

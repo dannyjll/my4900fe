@@ -22,6 +22,7 @@ const MyBoards = () => {
         setBoards(response.data);
       })
       .catch(error => console.error(error));
+    document.title = 'My Boards'
   }, []);
 
   const handleClick = (pk: number) => {

@@ -56,6 +56,7 @@ const MyTasks = () => {
         setTasks(response.data);
       })
       .catch(error => console.error(error));
+      document.title = 'My Tasks'
   }, [task]);
 
   const handleClick = (pk: number) => {

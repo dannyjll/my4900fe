@@ -62,6 +62,7 @@ const GroupDetail = () => {
         if (pk) {
             apiService.getGroup(pk).then(response => {
                 setGroup(response.data)
+                document.title = response.data?.title
             }
             ).catch(response =>
                 console.error(response.error))

@@ -29,7 +29,7 @@ const App = () => {
     return () => clearInterval(interval);
   })
   return (
-    <div>
+    <div className='appcolor'>
       <PrimeReactProvider>
         <Router>
           <Navbar />

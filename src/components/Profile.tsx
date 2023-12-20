@@ -59,6 +59,7 @@ const ProfileDetail = () => {
       apiService.getUserFromProfilePK(pk)
         .then(response => {
           setUser(response.data);
+          document.title = response.data.username + "'s Profile"
         })
         .catch(error => console.error(error));
     }
@@ -68,6 +69,7 @@ const ProfileDetail = () => {
           setProfile(response.data);
         })
         .catch(error => console.error(error))
+      document.title = "My Profile"
     }
   }, [pk]);
 
